@@ -1,0 +1,4740 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1">
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent">
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Quản Lý Doanh Nghiệp">
+  <meta
+    name="theme-color"
+    content="#0d6efd">
+  <link
+    rel="apple-touch-icon"
+    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGIAAABQCAYAAADiF6CoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAANOSURBVHhe7ZzBjSJBEASRwAkcwAFeGIDwAQewBB8QVmAFPuAIHx59ypVWcAmnZSpaS3FUSP1hycrsSXrgMztqRQpG/kLxGqqIJFQRSagiklBFJKGKSEIVkYQqIglVRBKqiCS8RRGn06ltt9u2XC7bdDpt4/G4jUajv5Ze09/0Hr1XmncidRG6mOv1+u6iP7ukfZdC0hax3+8ffvKHLs3QrOykLEK3Fr+gdOmWlZl0RejT6xdRa7FYtN1u93WruVwuLvt6TX/Te/Re12tlPhmpitCFfHQ70sUdijQ+R7OzfmekKuLRF7NuU1Ee3eLkkZE0ReiT6hctchKcRycj46noVsTxeGybzabNZrM2mUzuNv/uS3vS3rRH7bU3XYpQOA/+vy/tuSe4iNVqdRfyU5b23gtUxCeeBF+9Tka4CN0nPdR8Pm+Hw6Gdz2d/+x2u/W2G+mtP2pv26Noe3xk/J/gHfhoU8JkCvvHN/DZRf+3Ry+hxKp5PYOgXxG0YfVqGEL0QvSD+2uutVteCMizBDf4TdchpEORC9ID4a6+3Wl0LyrAEN5CNCKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE2gQqqdQf6p3whNoEKqnUH+qd8ITaBCqp1B/qnfCE+pBlav2pQ+q1KNbV+1LH92qhxmv2pc+zFiP917XSx/vFX4qPnH1OA0CFSHqX0D0ARchPvFk9DoJ33QpQtS/CWJ0K6JgVBFJqCKSUEUkoYpIQhWRhCoiCVVEEqqIJFQRSagiklBFJKGKSMIfMztt6IzE7soAAAAASUVORK5CYII=">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.min.css">
+  <title>Hệ Thống Quản Lý Doanh Nghiệp</title>
+  <style>
+    :root {
+      --app-primary: #0d6efd;
+      --app-success: #198754;
+      --app-warning: #fd7e14;
+      --app-danger: #dc3545;
+      --app-bg: #f4f6f9;
+      --app-border: #e8ebef;
+      --app-text: #212529;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      min-height: 100%;
+    }
+    body {
+      margin: 0;
+      background: var(--app-bg);
+      color: var(--app-text);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+      font-size: 14px;
+      overflow-x: hidden;
+      touch-action: manipulation;
+    }
+    .app-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1030;
+      background: rgba(255, 255, 255, .95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--app-border);
+    }
+    .app-brand {
+      font-size: 15px;
+      font-weight: 700;
+      color: #212529;
+    }
+    .app-subtitle {
+      font-size: 11px;
+      color: #6c757d;
+    }
+    .app-content {
+      width: min(100% - 24px, 1600px);
+      margin: 0 auto;
+      padding: 20px 0 35px;
+    }
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--app-border);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .035);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+    .section-header {
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--app-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .section-body {
+      padding: 18px;
+    }
+    .section-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #212529;
+    }
+    .section-title i {
+      width: 20px;
+      color: var(--app-primary);
+    }
+    .section-subtitle {
+      display: block;
+      margin-top: 3px;
+      font-size: 11px;
+      color: #8a9199;
+    }
+    .kpi-card {
+      min-height: 115px;
+      border-radius: 14px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, .07);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .09);
+    }
+    .kpi-card::after {
+      content: "";
+      position: absolute;
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      right: -30px;
+      bottom: -35px;
+      background: rgba(255, 255, 255, .12);
+    }
+    .kpi-card-primary {
+      background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+    }
+    .kpi-card-success {
+      background: linear-gradient(135deg, #198754, #3caf78);
+    }
+    .kpi-card-secondary {
+      background: linear-gradient(135deg, #6c757d, #8a9298);
+    }
+    .kpi-card-warning {
+      background: linear-gradient(135deg, #fd7e14, #ff9a3c);
+      cursor: pointer;
+    }
+    .kpi-label {
+      font-size: 11px;
+      opacity: .88;
+      margin-bottom: 6px;
+    }
+    .kpi-value {
+      font-size: 25px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 5px;
+    }
+    .form-control,
+    .form-select {
+      min-height: 40px;
+      border-radius: 8px;
+      border-color: #dfe3e8;
+      font-size: 13px;
+    }
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #86b7fe;
+      box-shadow: 0 0 0 .18rem rgba(13, 110, 253, .1);
+    }
+    .payment-panel {
+      background: #fff8ed;
+      border: 1px solid #ffe1bd;
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .payment-title {
+      color: #b05f00;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .app-table {
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+    .app-table thead th {
+      background: #f8f9fa;
+      color: #495057;
+      font-size: 11px;
+      font-weight: 700;
+      vertical-align: middle;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .app-table tbody td {
+      font-size: 12px;
+      vertical-align: middle;
+    }
+    .app-table tbody tr {
+      transition: background .15s ease;
+    }
+    .app-table tbody tr:hover {
+      background: #f8fbff;
+    }
+    .table-clickable {
+      cursor: pointer;
+    }
+    .table-clickable:hover {
+      background: #eef6ff !important;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status-active {
+      color: #146c43;
+      background: #d1e7dd;
+    }
+    .status-warning {
+      color: #997404;
+      background: #fff3cd;
+    }
+    .status-danger {
+      color: #b02a37;
+      background: #f8d7da;
+    }
+    .status-secondary {
+      color: #495057;
+      background: #e9ecef;
+    }
+    .status-orange {
+      color: #9a4d00;
+      background: #ffe5cc;
+    }
+    .kpi-clickable { cursor: pointer; }
+    .kpi-clickable:focus-visible { outline: 2px solid #86b7fe; outline-offset: 2px; }
+    .detail-status-legend { display: flex; flex-wrap: wrap; gap: 6px; }
+    .detail-status-legend .status-badge { font-size: 9px; }
+    .stats-summary { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; margin-bottom: 12px; }
+    .stats-box { border: 1px solid #e8ebef; border-radius: 8px; padding: 9px 10px; background: #f8f9fa; }
+    .stats-box small { display:block; color:#6c757d; font-size:10px; }
+    .stats-box strong { display:block; margin-top:2px; font-size:15px; }
+    .stats-service-list { max-height:180px; overflow:auto; border:1px solid #e8ebef; border-radius:8px; padding:8px 10px; margin-bottom:12px; }
+    .stats-service-item { display:flex; justify-content:space-between; gap:8px; padding:5px 0; border-bottom:1px solid #f0f1f2; font-size:11px; }
+    .stats-service-item:last-child { border-bottom:0; }
+    .bank-template-input{font-family:inherit;font-size:12px;resize:vertical;min-height:118px}
+    .payment-select{min-width:85px;font-weight:700;text-align:center;text-align-last:center;padding-left:.35rem;padding-right:.35rem}
+    #filterTransMonth,#filterTransYear{flex:0 0 auto;width:100px;min-width:100px;height:35px;font-size:12px}
+    #filterTransYear{width:100px;min-width:100px}
+    .payment-yes {
+      color: #146c43;
+      background: #d1e7dd;
+      border-color: #198754;
+    }
+    .payment-no {
+      color: #b02a37;
+      background: #f8d7da;
+      border-color: #dc3545;
+    }
+    .empty-state {
+      text-align: center;
+      color: #6c757d;
+      padding: 35px 15px !important;
+    }
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(255, 255, 255, .84);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .loading-overlay.show {
+      display: flex;
+    }
+    .loading-text {
+      margin-top: 12px;
+      color: var(--app-primary);
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .footer {
+      text-align: center;
+      padding-top: 5px;
+      color: #98a0a8;
+      font-size: 11px;
+    }
+    .chart-wrap {
+      position: relative;
+      height: 390px;
+    }
+    .search-group .input-group-text {
+      background: #fff;
+      border-right: 0;
+    }
+    .search-group .form-control {
+      border-left: 0;
+    }
+    .search-group {
+      position: relative;
+    }
+    .search-group .form-control.has-clear {
+      padding-right: 36px;
+    }
+    .search-clear-btn {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 22px;
+      height: 22px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: #dfe3e8;
+      color: #5f6b76;
+      font-size: 11px;
+      line-height: 22px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .search-clear-btn:hover {
+      background: #c9ced4;
+      color: #212529;
+    }
+    .search-clear-btn[hidden] {
+      display: none;
+    }
+    .reminder-badge {
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 9px;
+      background: #dc3545;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 18px;
+      text-align: center;
+    }
+    .reminder-badge[hidden] {
+      display: none;
+    }
+    .reminder-chip {
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+    .reminder-chip.active {
+      border-color: #212529;
+    }
+    .reminder-group-row td {
+      background: #f1f3f5;
+      font-weight: 600;
+    }
+    .modal .table-wrap {
+      max-height: 65vh;
+    }
+    #paymentContent {
+      min-height: 205px;
+      resize: none;
+      font-size: 12px;
+    }
+    #qrCodeImage {
+      width: 205px;
+      max-width: 100%;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+    @media (max-width: 768px) {
+      .app-content {
+        width: calc(100% - 12px);
+        padding-top: 12px;
+      }
+      .section-body {
+        padding: 12px;
+      }
+      .section-header {
+        padding: 13px;
+      }
+      .kpi-card {
+        min-height: 105px;
+      }
+      .kpi-value {
+        font-size: 21px;
+      }
+      .chart-wrap {
+        height: 300px;
+      }
+    }
+    /* Compact UI + internal table scrolling */
+    .app-content{width:min(calc(100% - 20px),1600px);padding:12px 0 20px}
+    .section-card{border-radius:11px;margin-bottom:12px}
+    .section-header{padding:10px 13px;gap:8px}
+    .section-body{padding:13px}
+    .section-title{font-size:14px}
+    .section-subtitle{font-size:10px}
+    .kpi-card{min-height:88px;border-radius:11px}
+    .kpi-card:hover{transform:translateY(-1px)}
+    .kpi-card .p-3{padding:11px!important}
+    .kpi-label{font-size:10px;margin-bottom:4px}
+    .kpi-value{font-size:21px}
+    .form-label{font-size:11px;margin-bottom:3px}
+    .form-control,.form-select{min-height:35px;height:35px;border-radius:7px;font-size:12px;padding:.35rem .6rem}
+    textarea.form-control{height:auto;min-height:0}
+    .btn{min-height:32px;display:inline-flex;align-items:center;justify-content:center;gap:.3rem;border-radius:7px;font-size:12px;line-height:1.15;padding:.38rem .65rem;white-space:normal}
+    .btn-sm{min-height:29px;font-size:11px;padding:.28rem .52rem}
+    .btn i{flex:0 0 auto}
+    .btn-group>.btn{min-width:30px}
+    .table-wrap{width:100%;max-width:100%;overflow:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+    .transaction-table-wrap{max-height:330px}
+    .main-table-wrap{max-height:410px}
+    .detail-table-wrap{max-height:58vh}
+    .app-table{min-width:max-content}
+    .app-table thead th{position:sticky;top:0;z-index:5;background:#f8f9fa;box-shadow:0 1px 0 #dee2e6}
+    .app-table th,.app-table td{padding:7px 8px}
+    .app-table thead th{font-size:10px}
+    .app-table tbody td{font-size:11px}
+    .status-badge{padding:3px 7px;font-size:9px}
+    .empty-state{padding:25px 12px!important}
+    .payment-panel{padding:11px;border-radius:9px}
+    .payment-title{font-size:12px;margin-bottom:8px}
+    .chart-wrap{height:330px}
+    #paymentContent{min-height:170px}
+    #qrCodeImage{width:185px}
+    .modal-header,.modal-footer{padding:10px 13px}
+    .modal-body{padding:13px}
+    .modal-title{font-size:15px}
+    .modal .table-wrap{max-height:58vh}
+    .dropdown-menu{font-size:12px}
+    .dropdown-item{padding:.45rem .75rem}
+    .dropdown-item:disabled{opacity:.45;cursor:not-allowed;pointer-events:none}
+    .footer{font-size:10px}
+    @media (max-width:768px){
+      .app-content{width:calc(100% - 10px);padding-top:8px}
+      .section-body{padding:9px}
+      .section-header{padding:9px 10px}
+      .section-title{font-size:13px}
+      .kpi-card{min-height:78px}
+      .kpi-value{font-size:18px}
+      .kpi-label{font-size:9px}
+      .transaction-table-wrap{max-height:285px}
+      .main-table-wrap{max-height:340px}
+      .detail-table-wrap{max-height:60vh}
+      .chart-wrap{height:275px}
+      .btn{padding:.34rem .55rem}
+      #filterTransMonth{width:112px;min-width:112px}
+      #filterTransYear{width:88px;min-width:88px}
+    }
+  </style>
+</head>
+<body>
+  <!-- ==================== LOADING ==================== -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner-border text-primary" role="status"></div>
+    <div id="loadingText" class="loading-text">
+      Đang đồng bộ dữ liệu...
+    </div>
+  </div>
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar app-navbar">
+    <div class="container-fluid px-3">
+      <div class="d-flex align-items-center gap-2">
+        <div class="text-primary fs-5">
+          <i class="fa-solid fa-building"></i>
+        </div>
+        <div>
+          <div class="app-brand">
+            Hệ Thống Quản Lý Doanh Nghiệp
+          </div>
+          <div class="app-subtitle">
+            Dashboard & Customer Management
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-primary"
+          onclick="loadDataFromDrive({ force: true })">
+          <i class="fa-solid fa-rotate"></i>
+          <span class="d-none d-md-inline ms-1">
+            Đồng bộ
+          </span>
+        </button>
+        <button
+          type="button"
+          id="btnReminder"
+          class="btn btn-sm btn-outline-danger position-relative"
+          title="Nhắc hạn dịch vụ (còn tối đa 2 tháng)"
+          onclick="openReminderModal()">
+          <i class="fa-solid fa-bell"></i>
+          <span class="d-none d-md-inline ms-1">
+            Nhắc hạn
+          </span>
+          <span id="reminderBadge" class="reminder-badge" hidden>0</span>
+        </button>
+        <div class="dropdown">
+          <button
+            type="button"
+            class="btn btn-sm btn-primary dropdown-toggle"
+            data-bs-toggle="dropdown">
+            <i class="fa-solid fa-gear"></i>
+            <span class="d-none d-md-inline ms-1">
+              Cài đặt
+            </span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li>
+              <button type="button" class="dropdown-item" onclick="openServiceConfig()">
+                <i class="fa-solid fa-list me-2 text-primary"></i>
+                Cấu hình dịch vụ
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item" onclick="openBankConfig()">
+                <i class="fa-solid fa-building-columns me-2 text-primary"></i>
+                Cấu hình Bank
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item" onclick="openBackupSyncModal()">
+                <i class="fa-solid fa-database me-2 text-success"></i>
+                Đồng bộ dữ liệu
+              </button>
+            </li>
+            <li>
+              <button type="button" id="btnInitializeSheets" class="dropdown-item" onclick="initializeSystemSheetsUI()">
+                <i class="fa-solid fa-table-list me-2 text-warning"></i>
+                Khởi tạo Sheet
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                class="dropdown-item"
+                onclick="openVersionModal()">
+                <i class="fa-solid fa-circle-info me-2 text-secondary"></i>
+                Thông tin phiên bản
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- ==================== MAIN ==================== -->
+  <main class="app-content">
+    <!-- ==================== DASHBOARD ==================== -->
+    <div class="row g-3 mb-3">
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card kpi-card-primary kpi-clickable p-3" onclick="openStatsModal('total')" title="Xem thống kê khách hàng theo MST và dịch vụ">
+          <div class="kpi-label">
+            <i class="fa-solid fa-building me-1"></i>
+            Tổng số doanh nghiệp
+          </div>
+          <div
+            id="dash-total-dn"
+            class="kpi-value">
+            0
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card kpi-card-success kpi-clickable p-3" onclick="openStatsModal('active')" title="Xem các MST đang còn ít nhất một dịch vụ hoạt động">
+          <div class="kpi-label">
+            <i class="fa-solid fa-circle-check me-1"></i>
+            Đang hoạt động
+          </div>
+          <div
+            id="dash-active-dn"
+            class="kpi-value">
+            0
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card kpi-card-secondary kpi-clickable p-3" onclick="openStatsModal('expired')" title="Xem các MST có dịch vụ đã hết hạn">
+          <div class="kpi-label">
+            <i class="fa-solid fa-triangle-exclamation me-1"></i>
+            Dịch vụ hết hạn
+          </div>
+          <div
+            id="dash-expired-srv"
+            class="kpi-value">
+            0
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div
+          class="kpi-card kpi-card-warning p-3"
+          onclick="openChartModal()">
+          <div class="kpi-label">
+            <i class="fa-solid fa-chart-line me-1"></i>
+            Doanh thu bộ lọc tháng
+          </div>
+          <div
+            id="dash-month-revenue"
+            class="kpi-value">
+            0 đ
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ==================== FORM ==================== -->
+    <section class="section-card">
+      <div class="section-header">
+        <div>
+          <h3 class="section-title">
+            <i class="fa-solid fa-file-circle-plus"></i>
+            Thêm / Sửa thông tin dịch vụ
+          </h3>
+          <span class="section-subtitle">
+            Quản lý dịch vụ, thời hạn và giao dịch
+          </span>
+        </div>
+      </div>
+      <div class="section-body">
+        <form id="serviceForm">
+          <input
+            type="hidden"
+            id="editServiceIndex">
+          <input
+            type="hidden"
+            id="editGlobalIndex">
+          <input
+            type="hidden"
+            id="formIdKpi">
+          <input
+            type="hidden"
+            id="formId">
+          <input
+            type="hidden"
+            id="formIdKpiTrans">
+          <div class="row g-3">
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formMst"
+                class="form-label">
+                Mã số thuế (MST)
+              </label>
+              <input
+                type="text"
+                id="formMst"
+                class="form-control"
+                required
+                placeholder="Ví dụ: 0101234567">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formName"
+                class="form-label">
+                Tên doanh nghiệp
+              </label>
+              <input
+                type="text"
+                id="formName"
+                class="form-control"
+                required
+                placeholder="Nhập tên doanh nghiệp...">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formService"
+                class="form-label">
+                Dịch vụ / Gói sản phẩm
+              </label>
+              <select
+                id="formService"
+                class="form-select"
+                required>
+                <option value="">
+                  -- Chọn dịch vụ --
+                </option>
+              </select>
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formStartDate"
+                class="form-label">
+                Thời gian đấu nối
+              </label>
+              <input
+                type="text"
+                id="formStartDate"
+                class="form-control"
+                required
+                placeholder="MM/YYYY">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formYears"
+                class="form-label">
+                Thời gian sử dụng (số năm)
+              </label>
+              <input
+                type="number"
+                id="formYears"
+                class="form-control"
+                required
+                min="0"
+                step="any"
+                placeholder="Ví dụ: 1.5">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formEndDate"
+                class="form-label">
+                Thời gian hết hạn
+              </label>
+              <input
+                type="text"
+                id="formEndDate"
+                class="form-control"
+                readonly
+                placeholder="Hệ thống tự tính...">
+            </div>
+          </div>
+          <div class="payment-panel mt-4">
+            <div class="payment-title">
+              <i class="fa-solid fa-money-bill-transfer me-1"></i>
+              Thông tin giao dịch
+            </div>
+            <div class="row g-3">
+              <div class="col-12 col-md-4">
+                <label
+                  for="formTransType"
+                  class="form-label">
+                  Loại giao dịch
+                </label>
+                <select
+                  id="formTransType"
+                  class="form-select">
+                  <option value="Mới">
+                    Mua mới
+                  </option>
+                  <option value="Gia hạn">
+                    Gia hạn
+                  </option>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <label
+                  for="formTransAmount"
+                  class="form-label">
+                  Số tiền phát sinh (VNĐ)
+                </label>
+                <input
+                  type="text"
+                  id="formTransAmount"
+                  class="form-control"
+                  value="0">
+              </div>
+              <div class="col-12 col-md-4">
+                <label
+                  for="formTransStatus"
+                  class="form-label">
+                  Trạng thái thanh toán
+                </label>
+                <select
+                  id="formTransStatus"
+                  class="form-select">
+                  <option value="YES">
+                    Đã thanh toán
+                  </option>
+                  <option
+                    value="NO"
+                    selected>
+                    Chưa thanh toán
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row g-3 mt-1">
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formContactName"
+                class="form-label">
+                Người liên hệ
+              </label>
+              <input
+                type="text"
+                id="formContactName"
+                class="form-control"
+                placeholder="Họ và tên...">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formContactPhone"
+                class="form-label">
+                Số điện thoại
+              </label>
+              <input
+                type="text"
+                id="formContactPhone"
+                class="form-control"
+                placeholder="Số điện thoại...">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formContactEmail"
+                class="form-label">
+                Email
+              </label>
+              <input
+                type="email"
+                id="formContactEmail"
+                class="form-control"
+                placeholder="Email...">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formUser"
+                class="form-label">
+                Tài khoản
+              </label>
+              <input
+                type="text"
+                id="formUser"
+                class="form-control"
+                placeholder="Tên đăng nhập...">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formPass"
+                class="form-label">
+                Mật khẩu
+              </label>
+              <input
+                type="text"
+                id="formPass"
+                class="form-control"
+                placeholder="Mật khẩu...">
+            </div>
+            <div class="col-12 col-md-6 col-xl-4">
+              <label
+                for="formLink"
+                class="form-label">
+                Link đăng nhập
+              </label>
+              <input
+                type="text"
+                id="formLink"
+                class="form-control"
+                placeholder="https://...">
+            </div>
+            <div class="col-12">
+              <label
+                for="formNote"
+                class="form-label">
+                Ghi chú công việc
+              </label>
+              <input
+                type="text"
+                id="formNote"
+                class="form-control"
+                placeholder="Nhập các lưu ý...">
+            </div>
+          </div>
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button
+              type="button"
+              class="btn btn-light"
+              id="btnResetForm">
+              <i class="fa-solid fa-rotate-left me-1"></i>
+              Làm mới
+            </button>
+            <button
+              type="submit"
+              id="btnFormSubmit"
+              class="btn btn-primary px-4">
+              <i class="fa-solid fa-floppy-disk me-1"></i>
+              Thêm mới / Lưu
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <!-- ==================== TRANSACTION ==================== -->
+    <section class="section-card">
+      <div class="section-header">
+        <div>
+          <h3 class="section-title">
+            <i class="fa-solid fa-money-bill-transfer text-warning"></i>
+            Giao dịch theo tháng
+          </h3>
+          <span class="section-subtitle">
+            Danh sách gia hạn và giao dịch phát sinh từ KPI
+          </span>
+        </div>
+        <div class="d-flex gap-2">
+          <select
+            id="filterTransMonth"
+            class="form-select form-select-sm">
+          </select>
+          <select
+            id="filterTransYear"
+            class="form-select form-select-sm">
+          </select>
+        </div>
+      </div>
+      <div class="section-body p-0">
+        <div class="table-wrap transaction-table-wrap">
+          <table
+            class="table table-hover app-table">
+            <thead>
+              <tr>
+                <th class="text-center">
+                  STT
+                </th>
+                <th>
+                  Tên doanh nghiệp
+                </th>
+                <th>
+                  MST
+                </th>
+                <th>
+                  Dịch vụ
+                </th>
+                <th>
+                  Ngày GD
+                </th>
+                <th>
+                  Loại GD
+                </th>
+                <th class="text-end">
+                  Số tiền
+                </th>
+                <th class="text-center">
+                  Thanh toán
+                </th>
+                <th class="text-center">
+                  Hành động
+                </th>
+              </tr>
+            </thead>
+            <tbody id="transactionTableBody">
+              <tr>
+                <td
+                  colspan="9"
+                  class="empty-state">
+                  Đang nạp dữ liệu...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <!-- ==================== COMPANY ==================== -->
+    <section class="section-card">
+      <div class="section-header">
+        <div>
+          <h3 class="section-title">
+            <i class="fa-solid fa-building text-primary"></i>
+            Danh sách doanh nghiệp
+          </h3>
+          <span class="section-subtitle">
+            Click dòng để xem chi tiết doanh nghiệp
+          </span>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="row g-2 mb-3">
+          <div class="col-12 col-lg-8">
+            <div class="input-group search-group">
+              <span class="input-group-text">
+                <i class="fa-solid fa-magnifying-glass text-secondary"></i>
+              </span>
+              <input
+                type="text"
+                id="searchQuery"
+                class="form-control"
+                autocomplete="off"
+                placeholder="Tìm theo MST hoặc tên doanh nghiệp...">
+              <button
+                type="button"
+                id="btnClearSearch"
+                class="search-clear-btn"
+                title="Xóa nội dung tìm kiếm"
+                aria-label="Xóa nội dung tìm kiếm"
+                hidden>
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <select
+              id="filterExpiryStatus"
+              class="form-select">
+              <option value="all">
+                Tất cả trạng thái
+              </option>
+              <option value="con-han">
+                Còn hạn
+              </option>
+              <option value="sap-het-2-3">
+                Còn 2–3 tháng
+              </option>
+              <option value="sap-het-1">
+                Còn 1 tháng
+              </option>
+              <option value="han-trong-thang">
+                Hạn tháng này
+              </option>
+              <option value="het-han">
+                Hết hạn / Ngừng sử dụng
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap main-table-wrap">
+          <table
+            class="table table-hover app-table">
+            <thead>
+              <tr>
+                <th class="text-center">
+                  STT
+                </th>
+                <th>
+                  MST
+                </th>
+                <th>
+                  Tên doanh nghiệp
+                </th>
+                <th class="text-center">
+                  Gói hết hạn
+                </th>
+                <th class="text-center">
+                  Trạng thái
+                </th>
+                <th class="text-center">
+                  Hành động
+                </th>
+              </tr>
+            </thead>
+            <tbody id="mainTableBody">
+              <tr>
+                <td
+                  colspan="6"
+                  class="empty-state">
+                  Đang tải dữ liệu từ Google Drive...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <div class="footer">
+      Hệ Thống Quản Lý Doanh Nghiệp · v1.5.1
+    </div>
+  </main>
+  <!-- ==================== CHART MODAL ==================== -->
+  <div
+    class="modal fade"
+    id="chartModal"
+    tabindex="-1">
+    <div
+      class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fa-solid fa-chart-line text-warning me-2"></i>
+            Thống kê doanh thu
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="chart-wrap">
+            <canvas id="revenueChart"></canvas>
+          </div>
+          <div class="row text-center mt-4">
+            <div class="col-md-4">
+              <small class="text-secondary">
+                Doanh thu năm được chọn
+              </small>
+              <div
+                id="valCurrentYear"
+                class="fw-bold fs-5">
+                0 đ
+              </div>
+            </div>
+            <div class="col-md-4">
+              <small class="text-secondary">
+                Doanh thu năm trước
+              </small>
+              <div
+                id="valPrevYear"
+                class="fw-bold fs-5">
+                0 đ
+              </div>
+            </div>
+            <div class="col-md-4">
+              <small class="text-secondary">
+                So sánh
+              </small>
+              <div
+                id="valComparison"
+                class="fw-bold fs-5">
+                --
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== DETAIL MODAL ==================== -->
+  <div
+    class="modal fade"
+    id="detailModal"
+    tabindex="-1">
+    <div
+      class="modal-dialog modal-fullscreen-xl-down modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="d-flex align-items-center gap-3 flex-wrap">
+            <div>
+              <h5 id="modalTitleCompany" class="modal-title">Tên doanh nghiệp</h5>
+              <div id="modalTxtMst" class="text-secondary small">MST:</div>
+            </div>
+            <span id="modalPackageCount" class="badge text-bg-primary">Tổng số gói: 0</span>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs mb-3" id="detailTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link active" id="tabServicesBtn" data-bs-toggle="tab" data-bs-target="#tabServices" role="tab">
+                <i class="fa-solid fa-list me-1"></i>Danh sách dịch vụ
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button type="button" class="nav-link" id="tabHistoryBtn" data-bs-toggle="tab" data-bs-target="#tabHistory" role="tab">
+                <i class="fa-solid fa-clock-rotate-left me-1"></i>Lịch sử gia hạn
+                <span id="detailHistoryCount" class="badge text-bg-secondary ms-1">0</span>
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content">
+          <div class="tab-pane fade show active" id="tabServices" role="tabpanel">
+          <div class="detail-status-legend mb-2" id="detailStatusLegend">
+            <span id="detailStatusActive" class="status-badge status-active">Còn hạn: 0</span>
+            <span id="detailStatus2_3" class="status-badge status-warning">2–3 tháng: 0</span>
+            <span id="detailStatus1" class="status-badge status-orange">1 tháng: 0</span>
+            <span id="detailStatusCurrent" class="status-badge status-danger">Hạn trong tháng: 0</span>
+            <span id="detailStatusExpired" class="status-badge status-secondary">Đã hết hạn: 0</span>
+          </div>
+          <div class="table-wrap detail-table-wrap">
+            <table
+              class="table table-hover app-table">
+              <thead>
+                <tr>
+                  <th>
+                    STT
+                  </th>
+                  <th>
+                    Tên doanh nghiệp
+                  </th>
+                  <th>
+                    MST
+                  </th>
+                  <th>
+                    Người liên hệ
+                  </th>
+                  <th>
+                    SĐT
+                  </th>
+                  <th>
+                    Email
+                  </th>
+                  <th>
+                    Dịch vụ
+                  </th>
+                  <th>
+                    Đấu nối
+                  </th>
+                  <th>
+                    Số năm
+                  </th>
+                  <th>
+                    Hết hạn
+                  </th>
+                  <th class="text-center">
+                    Trạng thái
+                  </th>
+                  <th>
+                    Ghi chú
+                  </th>
+                  <th>
+                    Link
+                  </th>
+                  <th>
+                    User
+                  </th>
+                  <th>
+                    Pass
+                  </th>
+                  <th>
+                    Hành động
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="modalTableBody"></tbody>
+            </table>
+          </div>
+          </div>
+          <div class="tab-pane fade" id="tabHistory" role="tabpanel">
+            <div class="table-wrap detail-table-wrap">
+              <table class="table table-hover app-table">
+                <thead>
+                  <tr>
+                    <th>Dịch vụ</th>
+                    <th>Lần</th>
+                    <th>Đấu nối</th>
+                    <th>Số năm</th>
+                    <th>Hết hạn</th>
+                    <th>Loại giao dịch</th>
+                    <th class="text-end">Số tiền</th>
+                    <th class="text-center">Thanh toán</th>
+                    <th class="text-center">Ghi chú</th>
+                  </tr>
+                </thead>
+                <tbody id="modalHistoryBody"></tbody>
+              </table>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== REMINDER MODAL ==================== -->
+  <div class="modal fade" id="reminderModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title text-danger">
+              <i class="fa-solid fa-bell me-2"></i>Nhắc hạn dịch vụ
+            </h5>
+            <div class="text-secondary small">
+              Các gói hết hạn trong tháng này và 2 tháng tới
+              (<span id="reminderTotal">0</span> gói)
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="reminderSummary" class="d-flex flex-wrap gap-2 mb-3"></div>
+          <div class="table-wrap">
+            <table class="table table-hover app-table">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Doanh nghiệp</th>
+                  <th>Liên hệ</th>
+                  <th>Dịch vụ</th>
+                  <th>Hết hạn</th>
+                  <th class="text-center">Trạng thái</th>
+                  <th class="text-center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="reminderTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== RENEW MODAL ==================== -->
+  <div
+    class="modal fade"
+    id="renewQuickModal"
+    tabindex="-1">
+    <div
+      class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info">
+            <i class="fa-solid fa-clock-rotate-left me-2"></i>
+            Gia hạn dịch vụ
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label
+              for="quickRenewYears"
+              class="form-label">
+              Gia hạn thêm (số năm)
+            </label>
+            <input
+              type="number"
+              id="quickRenewYears"
+              class="form-control"
+              value="0"
+              min="0.1"
+              step="any">
+          </div>
+          <div>
+            <label
+              for="quickRenewAmount"
+              class="form-label">
+              Số tiền giao dịch (VNĐ)
+            </label>
+            <input
+              type="text"
+              id="quickRenewAmount"
+              class="form-control"
+              value="0">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            data-bs-dismiss="modal">
+            Hủy
+          </button>
+          <button
+            type="button"
+            id="btnConfirmQuickRenew"
+            class="btn btn-info text-white">
+            <i class="fa-solid fa-check me-1"></i>
+            Xác nhận
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== PAYMENT MODAL ==================== -->
+  <div
+    class="modal fade"
+    id="paymentModal"
+    tabindex="-1">
+    <div
+      class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fa-solid fa-qrcode me-2"></i>
+            Thanh toán
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+        </div>
+        <div class="modal-body">
+          <select
+            id="bankSelector"
+            class="form-select mb-3">
+            <option value="">-- Chọn tài khoản --</option>
+          </select>
+          <div
+            class="d-flex justify-content-end gap-2 mb-2">
+            <button
+              type="button"
+              class="btn btn-sm btn-light"
+              onclick="copyPaymentContent()">
+              <i class="fa-regular fa-copy me-1"></i>
+              Copy nội dung
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-light"
+              onclick="copyQrCode()">
+              <i class="fa-regular fa-image me-1"></i>
+              Copy QR
+            </button>
+          </div>
+          <textarea
+            id="paymentContent"
+            class="form-control"
+            readonly>
+          </textarea>
+          <div class="mt-3">
+            <img id="qrCodeImage" alt="VietQR">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== SERVICE CONFIG MODAL ==================== -->
+  <div
+    class="modal fade"
+    id="serviceConfigModal"
+    tabindex="-1">
+    <div
+      class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fa-solid fa-list me-2"></i>
+            Cấu hình dịch vụ
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div
+            id="serviceSettingList"
+            class="border rounded p-2 mb-3"
+            style="max-height:250px;overflow:auto">
+          </div>
+          <input
+            type="text"
+            id="newServiceName"
+            class="form-control mb-2"
+            placeholder="Nhập tên dịch vụ mới...">
+          <button
+            type="button"
+            id="btnAddService"
+            class="btn btn-success w-100">
+            <i class="fa-solid fa-plus me-1"></i>
+            Thêm dịch vụ
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== STATS MODAL ==================== -->
+  <div class="modal fade" id="statsModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title" id="statsModalTitle">Thống kê</h5>
+            <div id="statsSummary" class="small text-secondary"></div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-0">
+          <div class="table-wrap detail-table-wrap">
+            <table class="table table-hover app-table mb-0">
+              <thead>
+                <tr>
+                  <th class="text-center">STT</th>
+                  <th>Dịch vụ</th>
+                  <th class="text-center">Còn hạn</th>
+                  <th class="text-center">2–3 tháng</th>
+                  <th class="text-center">1 tháng</th>
+                  <th class="text-center">Hạn tháng này</th>
+                  <th class="text-center">Hết hạn</th>
+                  <th class="text-center">Tổng</th>
+                </tr>
+              </thead>
+              <tbody id="statsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BANK CONFIG MODAL ==================== -->
+  <div class="modal fade" id="bankConfigModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title">Cấu hình Bank</h5>
+            <div class="small text-secondary">Tài khoản, nội dung thanh toán và QR được quản lý từ Sheet BANK.</div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="bankConfigForm">
+            <input type="hidden" id="bankEditId">
+            <div class="row g-2">
+              <div class="col-12 col-md-4">
+                <label class="form-label">Số tài khoản</label>
+                <input type="text" id="bankAccountNumber" class="form-control" required inputmode="text">
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Ngân hàng / BIN</label>
+                <select id="bankBinPreset" class="form-select">
+                  <option value="">-- Chọn ngân hàng --</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">BIN</label>
+                <input type="text" id="bankBin" class="form-control" required inputmode="numeric" maxlength="6">
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Tên tài khoản</label>
+                <input type="text" id="bankAccountName" class="form-control" required>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Ngân hàng</label>
+                <input type="text" id="bankName" class="form-control" required>
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Chi nhánh</label>
+                <input type="text" id="bankBranch" class="form-control">
+              </div>
+              <div class="col-12 col-md-4">
+                <label class="form-label">Đơn vị thụ hưởng</label>
+                <input type="text" id="bankBeneficiary" class="form-control">
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="d-flex justify-content-between align-items-center">
+                  <label class="form-label mb-1">Nội dung thanh toán</label>
+                  <button type="button" class="btn btn-sm btn-outline-secondary py-0" id="btnSuggestPaymentTemplate" title="Đề xuất mẫu nội dung">Gợi ý</button>
+                </div>
+                <textarea id="bankPaymentTemplate" class="form-control bank-template-input" rows="5"></textarea>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="d-flex justify-content-between align-items-center">
+                  <label class="form-label mb-1">Mẫu QR</label>
+                  <button type="button" class="btn btn-sm btn-outline-secondary py-0" id="btnSuggestQrTemplate" title="Đề xuất mẫu VietQR">Gợi ý</button>
+                </div>
+                <textarea id="bankQrTemplate" class="form-control bank-template-input" rows="5"></textarea>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="d-flex justify-content-between align-items-center">
+                  <label class="form-label mb-1">Nội dung QR</label>
+                  <button type="button" class="btn btn-sm btn-outline-secondary py-0" id="btnSuggestQrContent" title="Đề xuất nội dung QR">Gợi ý</button>
+                </div>
+                <input type="text" id="bankQrContentTemplate" class="form-control">
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label">Active</label>
+                <select id="bankActive" class="form-select">
+                  <option value="TRUE">TRUE</option>
+                  <option value="FALSE">FALSE</option>
+                </select>
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label">Thứ tự</label>
+                <input type="text" id="bankSortOrder" class="form-control">
+              </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2 mt-3">
+              <button type="button" class="btn btn-light" id="btnResetBankForm">Làm mới</button>
+              <button type="submit" class="btn btn-primary" id="btnSaveBank">Lưu Bank</button>
+            </div>
+          </form>
+          <div class="table-wrap mt-3">
+            <table class="table table-hover app-table mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Số tài khoản</th>
+                  <th>BIN</th>
+                  <th>Tên tài khoản</th>
+                  <th>Ngân hàng</th>
+                  <th class="text-center">Trạng thái</th>
+                  <th class="text-center">Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="bankConfigTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BACKUP SYNC MODAL ==================== -->
+  <div class="modal fade" id="backupSyncModal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title">Đồng bộ dữ liệu</h5>
+            <div class="small text-secondary">Nguồn chuẩn: DATA/KPI → Bản sao: BACK_DATA/BACK_KPI</div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="backupSyncSummary" class="mb-3"></div>
+          <div class="row g-3">
+            <div class="col-12 col-lg-6">
+              <div class="border rounded p-2 h-100">
+                <div class="fw-semibold mb-2">DATA → BACK_DATA</div>
+                <div id="backupDataDiff"></div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6">
+              <div class="border rounded p-2 h-100">
+                <div class="fw-semibold mb-2">KPI → BACK_KPI</div>
+                <div id="backupKpiDiff"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-outline-primary" id="btnSyncDataOnly">Đồng bộ DATA → BACK_DATA</button>
+          <button type="button" class="btn btn-outline-primary" id="btnSyncKpiOnly">Đồng bộ KPI → BACK_KPI</button>
+          <button type="button" class="btn btn-primary" id="btnSyncAll">Đồng bộ cả DATA + KPI</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VERSION MODAL ==================== -->
+  <div
+    class="modal fade"
+    id="versionModal"
+    tabindex="-1">
+    <div
+      class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fa-solid fa-circle-info me-2"></i>
+            Thông tin phần mềm
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <div class="small text-secondary">
+              Phát triển bởi
+            </div>
+            <strong>
+              Vũ Nguyễn Hoàng Phúc (Phucvnh)
+            </strong>
+          </div>
+          <div class="mb-3">
+            <div class="small text-secondary">
+              Phiên bản hiện tại
+            </div>
+            <strong class="text-primary">
+              v1.5.1
+            </strong>
+          </div>
+          <div class="accordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#version151">
+                  v1.5.1 · 02/10/2026
+                </button>
+              </h2>
+              <div id="version151" class="accordion-collapse collapse show">
+                <div class="accordion-body small">Bổ sung danh mục BIN/ngân hàng, tự động điền ngân hàng theo BIN, gợi ý nội dung thanh toán, mẫu VietQR và nội dung QR; cập nhật giao diện cấu hình Bank và dữ liệu dạng text để giữ số 0 đầu.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#version150">
+                  v1.5.0 · 01/10/2026
+                </button>
+              </h2>
+              <div id="version150" class="accordion-collapse collapse show">
+                <div class="accordion-body small">Bổ sung thống kê tổng quát theo MST và dịch vụ, phân loại màu thời hạn 5 mức, đối soát chênh lệch DATA/KPI với backup, khởi tạo Sheet và quản lý tài khoản BANK cho thanh toán/VietQR.</div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#version141">
+                  v1.4.1 · 01/07/2026
+                </button>
+              </h2>
+              <div
+                id="version141"
+                class="accordion-collapse collapse">
+                <div class="accordion-body small">
+                  Bảng danh sách toàn bộ: tách điều kiện hết hạn và hạn tháng cuối.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#version140">
+                  v1.4.0 · 22/06/2026
+                </button>
+              </h2>
+              <div
+                id="version140"
+                class="accordion-collapse collapse">
+                <div class="accordion-body small">
+                  Thêm thống kê giao dịch, STK, nội dung thanh toán, VietQR và copy.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#version130">
+                  v1.3.0 · 22/06/2026
+                </button>
+              </h2>
+              <div
+                id="version130"
+                class="accordion-collapse collapse">
+                <div class="accordion-body small">
+                  Thêm thông tin phiên bản và lịch sử phát triển.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#version120">
+                  v1.2.0 · 20/06/2026
+                </button>
+              </h2>
+              <div
+                id="version120"
+                class="accordion-collapse collapse">
+                <div class="accordion-body small">
+                  Thêm biểu đồ doanh thu và click ngoài modal để đóng.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#version110">
+                  v1.1.0 · 13/06/2026
+                </button>
+              </h2>
+              <div
+                id="version110"
+                class="accordion-collapse collapse">
+                <div class="accordion-body small">
+                  Thêm kiểm tra trùng, tự điền doanh nghiệp và tìm kiếm nhanh.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#version100">
+                  v1.0.0 · 16/05/2026
+                </button>
+              </h2>
+              <div
+                id="version100"
+                class="accordion-collapse collapse">
+                <div class="accordion-body small">
+                  Khởi tạo hệ thống kết hợp Google Apps Script.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.all.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+const state = {
+      rawServices: [],
+      kpiServices: [],
+      services: [],
+      banks: [],
+      currentMst: "",
+      chart: null,
+      dataItem: null,
+      oldYears: 0,
+      currentRenewId: null,
+      currentCustomer: "",
+      currentAmount: "",
+      statsMode: "total"
+    };
+const $ = selector =>
+      document.querySelector(selector);
+    const $$ = selector =>
+      [...document.querySelectorAll(selector)];
+    const getValue = id =>
+      $(`#${id}`)?.value?.trim() ?? "";
+    const setValue = (
+      id,
+      value = ""
+    ) => {
+      const element =
+        $(`#${id}`);
+      if (element) {
+        element.value = value;
+      }
+    };
+    const setText = (
+      id,
+      value = ""
+    ) => {
+      const element =
+        $(`#${id}`);
+      if (element) {
+        element.textContent = value;
+      }
+    };
+    const encodeArg = value =>
+      encodeURIComponent(
+        String(value ?? "")
+      );
+    const decodeArg = value =>
+      decodeURIComponent(
+        String(value ?? "")
+      );
+const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 2200,
+      timerProgressBar: true
+    });
+    const notify = {
+      success(message) {
+        return Toast.fire({
+          icon: "success",
+          title: message
+        });
+      },
+      error(message) {
+        return Toast.fire({
+          icon: "error",
+          title: message
+        });
+      },
+      warning(message) {
+        return Toast.fire({
+          icon: "warning",
+          title: message
+        });
+      },
+      info(message) {
+        return Toast.fire({
+          icon: "info",
+          title: message
+        });
+      }
+    };
+    const confirmAction = async (
+      title,
+      text,
+      confirmText = "Xác nhận"
+    ) => {
+      const result =
+        await Swal.fire({
+          icon: "question",
+          title,
+          text,
+          showCancelButton: true,
+          confirmButtonText: confirmText,
+          cancelButtonText: "Hủy",
+          reverseButtons: true
+        });
+      return result.isConfirmed;
+    };
+const loading = {
+      show(message = "Đang xử lý...") {
+        setText(
+          "loadingText",
+          message
+        );
+        $("#loadingOverlay")
+          ?.classList
+          .add("show");
+      },
+      hide() {
+        $("#loadingOverlay")
+          ?.classList
+          .remove("show");
+      }
+    };
+function formatDateToString(dateInput) {
+      if (!dateInput) {
+        return "";
+      }
+      if (
+        dateInput instanceof Date ||
+        String(dateInput).includes("GMT")
+      ) {
+        const date =
+          new Date(dateInput);
+        if (
+          !Number.isNaN(
+            date.getTime()
+          )
+        ) {
+          return `${
+            date.getMonth() + 1
+          }/${date.getFullYear()}`;
+        }
+      }
+      return String(dateInput)
+        .replace(/'/g, "")
+        .trim();
+    }
+    function parseDateString(value) {
+      if (!value) {
+        return null;
+      }
+      const stringValue =
+        String(value).trim();
+      const monthYear =
+        stringValue.match(
+          /^(\d{1,2})\/(\d{4})$/
+        );
+      if (monthYear) {
+        const month =
+          Number(monthYear[1]);
+        const year =
+          Number(monthYear[2]);
+        if (
+          month >= 1 &&
+          month <= 12
+        ) {
+          return new Date(
+            year,
+            month - 1,
+            1
+          );
+        }
+      }
+      const generic =
+        new Date(value);
+      return Number.isNaN(
+        generic.getTime()
+      )
+        ? null
+        : generic;
+    }
+    function formatVnd(value) {
+      return new Intl.NumberFormat(
+        "vi-VN",
+        {
+          style: "currency",
+          currency: "VND"
+        }
+      ).format(
+        Number(value) || 0
+      );
+    }
+    function formatCurrencyInput(
+      input
+    ) {
+      const clean =
+        input.value.replace(
+          /\D/g,
+          ""
+        );
+      input.value =
+        clean === ""
+          ? "0"
+          : Number(clean)
+              .toLocaleString(
+                "vi-VN"
+              );
+    }
+    function getCleanAmount(
+      value
+    ) {
+      return Number(
+        String(value || "")
+          .replace(
+            /[^0-9]/g,
+            ""
+          )
+      ) || 0;
+    }
+function autoCalculateExpiry() {
+      const mode =
+        getValue(
+          "editServiceIndex"
+        );
+      const years =
+        mode === "RENEW"
+          ? Number(
+              getValue(
+                "quickRenewYears"
+              )
+            ) || 0
+          : Number(
+              getValue(
+                "formYears"
+              )
+            ) || 0;
+      const endDate =
+        $("#formEndDate");
+      if (
+        years < 0 ||
+        !endDate
+      ) {
+        if (endDate) {
+          endDate.value = "";
+        }
+        return null;
+      }
+      let baseDate = null;
+      if (mode === "RENEW") {
+        const id =
+          getValue("formId");
+        const dataItem =
+          state.rawServices.find(
+            item =>
+              String(
+                item.id || ""
+              ).trim() === id ||
+              String(
+                item.idKpi || ""
+              ).trim() === id
+          );
+        baseDate =
+          parseDateString(
+            dataItem?.expiryDate
+          );
+      } else {
+        baseDate =
+          parseDateString(
+            getValue(
+              "formStartDate"
+            )
+          );
+      }
+      if (
+        !baseDate ||
+        Number.isNaN(
+          baseDate.getTime()
+        )
+      ) {
+        baseDate =
+          new Date();
+      }
+      const expiry =
+        new Date(baseDate);
+      expiry.setMonth(
+        expiry.getMonth() +
+        Math.round(years * 12)
+      );
+      endDate.value =
+        formatDateToString(
+          expiry
+        );
+      return expiry;
+    }
+function initMonthYearSelectors() {
+      setValue(
+        "formStartDate",
+        formatDateToString(
+          new Date()
+        )
+      );
+      const now =
+        new Date();
+      const currentMonth =
+        now.getMonth() + 1;
+      const currentYear =
+        now.getFullYear();
+      const monthSelect =
+        $("#filterTransMonth");
+      const yearSelect =
+        $("#filterTransYear");
+      monthSelect.innerHTML = "";
+      yearSelect.innerHTML = "";
+      for (
+        let month = 1;
+        month <= 12;
+        month++
+      ) {
+        monthSelect.add(
+          new Option(
+            `Tháng ${month}`,
+            month,
+            month === currentMonth,
+            month === currentMonth
+          )
+        );
+      }
+      for (
+        let year = 2022;
+        year <= currentYear + 1;
+        year++
+      ) {
+        yearSelect.add(
+          new Option(
+            `Năm ${year}`,
+            year,
+            year === currentYear,
+            year === currentYear
+          )
+        );
+      }
+    }
+function updateInitializeButton(status) {
+      const button = $("#btnInitializeSheets");
+      if (!button) return;
+      button.disabled = !(status && status.canInitialize);
+      button.title = button.disabled
+        ? "Hệ thống đã có dữ liệu, không thể khởi tạo lại."
+        : "Khởi tạo các Sheet cần thiết cho hệ thống mới.";
+    }
+    function loadDataFromDrive(options) {
+      const silent = !!(options && options.silent === true);
+      const force = !!(options && options.force === true);
+      if (!silent) loading.show("Đang đồng bộ dữ liệu từ Google Drive...");
+      google.script.run
+        .withSuccessHandler(payload => {
+          const status = payload?.status;
+          if (!status?.success) {
+            if (!silent) loading.hide();
+            notify.error("Không thể kiểm tra trạng thái hệ thống.");
+            return;
+          }
+          updateInitializeButton(status);
+          const result = payload.result;
+          if (!status.coreReady || !result) {
+            state.rawServices = [];
+            state.kpiServices = [];
+            state.services = [];
+            state.banks = [];
+            updateServiceUI();
+            updateBankUI();
+            renderMainTable();
+            refreshAfterDataChange();
+            if (!silent) loading.hide();
+            return;
+          }
+          state.rawServices = (result.data ?? []).map(item => ({ ...item, expiryDate: parseDateString(item.expiryDate) }));
+          state.kpiServices = result.kpi ?? [];
+          state.services = result.service ?? [];
+          state.banks = result.banks ?? [];
+          state.bankMaster = result.bankMaster ?? [];
+          updateServiceUI();
+          updateBankUI();
+          renderMainTable();
+          refreshAfterDataChange();
+          if (!silent) loading.hide();
+        })
+        .withFailureHandler(error => {
+          if (!silent) loading.hide();
+          notify.error(error?.message ?? "Lỗi đồng bộ dữ liệu.");
+        })
+        .getBootstrapData(force);
+    }
+function openBackupSyncModal() {
+      loading.show("Đang kiểm tra chênh lệch dữ liệu...");
+      google.script.run
+        .withSuccessHandler(function(response) {
+          loading.hide();
+          if (!response || !response.success) {
+            notify.error(response && response.message ? response.message : "Không thể kiểm tra backup.");
+            return;
+          }
+          renderBackupSyncStatus(response);
+          bootstrap.Modal.getOrCreateInstance($("#backupSyncModal")).show();
+        })
+        .withFailureHandler(function(error) {
+          loading.hide();
+          notify.error(error && error.message ? error.message : "Không thể kiểm tra backup.");
+        })
+        .getBackupSyncStatus();
+    }
+
+    function renderBackupSyncStatus(response) {
+      var total = Number(response.totalDifferences) || 0;
+      var summary = total
+        ? "Có <strong>" + total + "</strong> chênh lệch. Nguồn chuẩn là DATA/KPI; khi đồng bộ sẽ ghi theo hướng DATA → BACK_DATA và KPI → BACK_KPI."
+        : "DATA/KPI và các Sheet backup đang khớp.";
+      $("#backupSyncSummary").innerHTML =
+        '<div class="alert ' + (total ? "alert-warning" : "alert-success") + ' py-2 mb-0">' + summary + '</div>';
+      renderBackupPair(response.data, "#backupDataDiff");
+      renderBackupPair(response.kpi, "#backupKpiDiff");
+    }
+
+    function renderBackupPair(pair, selector) {
+      if (!pair) {
+        $(selector).innerHTML = "Không có dữ liệu.";
+        return;
+      }
+      var diff = (Number(pair.added) || 0) + (Number(pair.changed) || 0) + (Number(pair.removed) || 0);
+      var serviceHtml = "<div class=\"small text-secondary mt-2\">Không có dịch vụ chênh lệch.</div>";
+      if (pair.serviceSummary && pair.serviceSummary.length) {
+        serviceHtml = '<div class="small fw-semibold mt-2 mb-1">Dịch vụ có chênh lệch</div>';
+        pair.serviceSummary.slice(0, 12).forEach(function(item) {
+          serviceHtml += '<div class="d-flex justify-content-between border-bottom py-1 small"><span>' +
+            escapeHtml(item.service) + '</span><span>' + (Number(item.count) || 0) + '</span></div>';
+        });
+      }
+      var detailHtml = "";
+      if (pair.differences && pair.differences.length) {
+        detailHtml = '<div class="table-wrap mt-2" style="max-height:220px"><table class="table table-sm app-table"><thead><tr>' +
+          '<th>Loại</th><th>ID</th><th>Dịch vụ</th><th>Chi tiết</th></tr></thead><tbody>';
+        pair.differences.forEach(function(item) {
+          var type = item.type === "ADDED" ? "Mới" : item.type === "CHANGED" ? "Thay đổi" : "Dư backup";
+          detailHtml += '<tr><td>' + type + '</td><td>' + escapeHtml(item.key) + '</td><td>' +
+            escapeHtml(item.service) + '</td><td>' + escapeHtml(item.changes) + '</td></tr>';
+        });
+        detailHtml += '</tbody></table></div>';
+      }
+      var html = '<div class="row g-2">' +
+        '<div class="col-6"><div class="stats-box"><small>Nguồn</small><strong>' + (Number(pair.sourceRows) || 0) + '</strong></div></div>' +
+        '<div class="col-6"><div class="stats-box"><small>Backup</small><strong>' + (Number(pair.targetRows) || 0) + '</strong></div></div>' +
+        '<div class="col-4"><div class="stats-box"><small>Mới</small><strong>' + (Number(pair.added) || 0) + '</strong></div></div>' +
+        '<div class="col-4"><div class="stats-box"><small>Thay đổi</small><strong>' + (Number(pair.changed) || 0) + '</strong></div></div>' +
+        '<div class="col-4"><div class="stats-box"><small>Dư backup</small><strong>' + (Number(pair.removed) || 0) + '</strong></div></div>' +
+        '</div>' + (diff ? serviceHtml + detailHtml : '<div class="alert alert-success py-2 mt-2 mb-0">Không có chênh lệch.</div>');
+      $(selector).innerHTML = html;
+    }
+
+    function syncBackupScope(scope, title) {
+      confirmAction("Xác nhận đồng bộ?", title + " Nguồn hiện tại sẽ ghi đè bản backup tương ứng.", "Đồng bộ").then(function(confirmed) {
+        if (!confirmed) return;
+        loading.show("Đang đồng bộ backup...");
+        google.script.run
+          .withSuccessHandler(function(response) {
+            loading.hide();
+            if (!response || !response.success) {
+              notify.error(response && response.message ? response.message : "Không thể đồng bộ backup.");
+              return;
+            }
+            notify.success(response.message || "Đồng bộ thành công.");
+            openBackupSyncModal();
+          })
+          .withFailureHandler(function(error) {
+            loading.hide();
+            notify.error(error && error.message ? error.message : "Không thể đồng bộ backup.");
+          })
+          .backupSystemData(scope);
+      });
+    }
+
+    $("#btnSyncDataOnly")?.addEventListener("click", function() {
+      syncBackupScope("DATA", "Đồng bộ DATA → BACK_DATA.");
+    });
+    $("#btnSyncKpiOnly")?.addEventListener("click", function() {
+      syncBackupScope("KPI", "Đồng bộ KPI → BACK_KPI.");
+    });
+    $("#btnSyncAll")?.addEventListener("click", function() {
+      syncBackupScope("ALL", "Đồng bộ DATA → BACK_DATA và KPI → BACK_KPI.");
+    });
+
+function updateServiceUI() {
+      const select =
+        $("#formService");
+      const list =
+        $("#serviceSettingList");
+      select.innerHTML =
+        `<option value="">
+          -- Chọn dịch vụ --
+        </option>`;
+      state.services.forEach(
+        service => {
+          select.add(
+            new Option(
+              service.service,
+              service.service
+            )
+          );
+        }
+      );
+      list.innerHTML =
+        state.services
+          .map(
+            (service, index) => `
+              <div
+                class="
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  border-bottom
+                  py-2
+                ">
+                <span>
+                  ${escapeHtml(
+                    service.service
+                  )}
+                </span>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger"
+                  onclick="deleteServiceConfig(${index})">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            `
+          )
+          .join("");
+    }
+    function updateBankUI() {
+      const select = $("#bankSelector");
+      if (!select) return;
+      select.innerHTML = `<option value="">-- Chọn tài khoản --</option>`;
+      state.banks.forEach(bank => {
+        select.add(new Option(`${bank.accountNumber} · ${bank.accountName}`, bank.bankId));
+      });
+      if (state.banks.length) {
+        select.value = state.banks[0].bankId;
+      }
+      updatePaymentContent();
+    }
+    function getSelectedBank() {
+      const id = $("#bankSelector")?.value;
+      return state.banks.find(bank => bank.bankId === id) || null;
+    }
+    function bankTemplate(template, bank, amountNumber, mst) {
+      const qrContent = (bank.qrContentTemplate || "Thanh toan mst {MST}").replace(/\{MST\}/g, mst);
+      const values = {
+        ACCOUNT_NAME: bank.accountName,
+        BANK_NAME: bank.bankName,
+        BRANCH: bank.branch,
+        BENEFICIARY: bank.beneficiary,
+        ACCOUNT_NUMBER: bank.accountNumber,
+        BIN: bank.bin,
+        AMOUNT: formatVnd(amountNumber),
+        AMOUNT_NUMBER: String(amountNumber || 0),
+        MST: mst,
+        QR_CONTENT: qrContent,
+        QR_CONTENT_ENCODED: encodeURIComponent(qrContent),
+        ACCOUNT_NAME_ENCODED: encodeURIComponent(bank.accountName)
+      };
+      return String(template || "").replace(/\{([A-Z0-9_]+)\}/g, (_, key) => values[key] ?? "");
+    }
+
+    function renderBankMasterOptions(selectedBin) {
+      const select = $("#bankBinPreset");
+      if (!select) return;
+      select.innerHTML = `<option value="">-- Chọn ngân hàng --</option>`;
+      state.bankMaster
+        .filter(bank => bank.active && bank.transferSupported)
+        .sort((a, b) => String(a.shortName).localeCompare(String(b.shortName), "vi"))
+        .forEach(bank => {
+          const option = new Option(`${bank.shortName} · ${bank.bin}`, bank.bin);
+          option.title = bank.bankName;
+          select.add(option);
+        });
+      if (selectedBin) select.value = String(selectedBin);
+    }
+
+    function applyBankMasterSelection() {
+      const bin = getValue("bankBinPreset");
+      if (!bin) return;
+      const bank = state.bankMaster.find(item => String(item.bin) === bin);
+      if (!bank) return;
+      setValue("bankBin", bank.bin);
+      setValue("bankName", bank.bankName);
+      suggestBankTemplates();
+    }
+
+    function applyBankByBinInput() {
+      const bin = getValue("bankBin");
+      const bank = state.bankMaster.find(item => String(item.bin) === bin);
+      if (!bank) return;
+      setValue("bankBinPreset", bank.bin);
+      setValue("bankName", bank.bankName);
+    }
+
+    function suggestPaymentTemplate() {
+      if (getValue("bankPaymentTemplate")) return;
+      setValue("bankPaymentTemplate", [
+        "{ACCOUNT_NAME}",
+        "Ngân hàng: {BANK_NAME}",
+        "Số tài khoản: {ACCOUNT_NUMBER}",
+        "Tổng thanh toán: {AMOUNT}",
+        "Nội dung: {MST}",
+        "Sau khi hoàn tất anh/chị gửi em UNC để em thực hiện đối soát sao kê."
+      ].join("\n"));
+    }
+
+    function suggestBankQrTemplate() {
+      if (getValue("bankQrTemplate")) return;
+      setValue("bankQrTemplate", "STANDARD_COMPACT2");
+    }
+
+    function suggestBankQrContent() {
+      if (getValue("bankQrContentTemplate")) return;
+      setValue("bankQrContentTemplate", "Thanh toan mst {MST}");
+    }
+
+    function suggestBankTemplates() {
+      suggestPaymentTemplate();
+      suggestBankQrTemplate();
+      suggestBankQrContent();
+    }
+
+    async function addServiceConfig() {
+      const name =
+        getValue(
+          "newServiceName"
+        );
+      if (!name) {
+        notify.warning(
+          "Vui lòng nhập tên dịch vụ."
+        );
+        return;
+      }
+      const duplicate =
+        state.services.some(
+          service =>
+            service.service
+              .trim()
+              .toLowerCase() ===
+            name
+              .trim()
+              .toLowerCase()
+        );
+      if (duplicate) {
+        notify.warning(
+          "Dịch vụ này đã tồn tại."
+        );
+        return;
+      }
+      loading.show(
+        "Đang thêm dịch vụ..."
+      );
+      google.script.run
+        .withSuccessHandler(() => {
+          loading.hide();
+          setValue(
+            "newServiceName",
+            ""
+          );
+          notify.success(
+            "Đã thêm dịch vụ."
+          );
+          loadDataFromDrive();
+        })
+        .withFailureHandler(
+          error => {
+            loading.hide();
+            notify.error(
+              error?.message ??
+              "Không thể thêm dịch vụ."
+            );
+          }
+        )
+        .addServiceToSheet(
+          name
+        );
+    }
+    async function deleteServiceConfig(
+      index
+    ) {
+      const item =
+        state.services[index];
+      if (!item) {
+        return;
+      }
+      const confirmed =
+        await confirmAction(
+          "Xóa dịch vụ?",
+          `Bạn có chắc muốn xóa "${item.service}"?`
+        );
+      if (!confirmed) {
+        return;
+      }
+      loading.show(
+        "Đang xóa dịch vụ..."
+      );
+      google.script.run
+        .withSuccessHandler(() => {
+          loading.hide();
+          notify.success(
+            "Đã xóa dịch vụ."
+          );
+          loadDataFromDrive();
+        })
+        .withFailureHandler(
+          error => {
+            loading.hide();
+            notify.error(
+              error?.message ??
+              "Không thể xóa dịch vụ."
+            );
+          }
+        )
+        .deleteServicetoSheet(
+          item.service
+        );
+    }
+function resetForm() {
+      $("#serviceForm")?.reset();
+      setValue(
+        "editServiceIndex",
+        ""
+      );
+      setValue(
+        "editGlobalIndex",
+        ""
+      );
+      setValue(
+        "formIdKpi",
+        ""
+      );
+      setValue(
+        "formId",
+        ""
+      );
+      setValue(
+        "formIdKpiTrans",
+        ""
+      );
+      setValue(
+        "formStartDate",
+        formatDateToString(
+          new Date()
+        )
+      );
+      setValue(
+        "formTransAmount",
+        "0"
+      );
+      [
+        "formMst",
+        "formName",
+        "formService",
+        "formStartDate",
+        "formYears",
+        "formEndDate",
+        "formTransType",
+        "formTransAmount",
+        "formTransStatus",
+        "formContactName",
+        "formContactPhone",
+        "formContactEmail",
+        "formUser",
+        "formPass",
+        "formLink",
+        "formNote"
+      ].forEach(id => {
+        const element =
+          $(`#${id}`);
+        if (!element) {
+          return;
+        }
+        element.disabled = false;
+        element.readOnly = false;
+      });
+      state.dataItem = null;
+      state.oldYears = 0;
+      $("#btnFormSubmit").className =
+        "btn btn-primary px-4";
+      $("#btnFormSubmit").innerHTML =
+        `<i class="fa-solid fa-floppy-disk me-1"></i>
+         Thêm mới / Lưu`;
+    }
+function renderTransactionTable() {
+      var tbody = $("#transactionTableBody");
+      if (!tbody) return;
+      var month = Number(getValue("filterTransMonth")) || 0;
+      var year = Number(getValue("filterTransYear")) || 0;
+      var rows = [];
+      state.kpiServices.forEach(function(item) {
+        var date = parseDateString(item.startDate);
+        if (date && date.getMonth() + 1 === month && date.getFullYear() === year) {
+          rows.push(item);
+        }
+      });
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-state">Không có dữ liệu cho tháng ' + month + '/' + year + '</td></tr>';
+        setText("dash-month-revenue", formatVnd(0));
+        return;
+      }
+      var total = 0;
+      var html = "";
+      rows.forEach(function(item, index) {
+        var amount = Number(item.transAmount) || 0;
+        total += amount;
+        var paymentClass = item.transStatus === "YES" ? "payment-yes" : "payment-no";
+        html += '<tr>' +
+          '<td class="text-center">' + (index + 1) + '</td>' +
+          '<td><strong>' + escapeHtml(item.name || "N/A") + '</strong> ' +
+          '<button type="button" class="btn btn-sm btn-link p-0 ms-1" title="Thanh toán" onclick="openPaymentModal(\'' + encodeArg(item.mst) + '\',\'' + encodeArg(formatVnd(amount)) + '\')">' +
+          '<i class="fa-solid fa-paper-plane"></i></button></td>' +
+          '<td>' + escapeHtml(item.mst || "") + '</td>' +
+          '<td>' + escapeHtml(item.service || "") + '</td>' +
+          '<td>' + escapeHtml(formatDateToString(item.startDate)) + '</td>' +
+          '<td><span class="badge text-bg-' + (item.transType === "Mới" ? "success" : "primary") + '">' + escapeHtml(item.transType || "N/A") + '</span></td>' +
+          '<td class="text-end fw-semibold text-warning-emphasis">' + formatVnd(amount) + '</td>' +
+          '<td class="text-center"><select class="form-select form-select-sm payment-select ' + paymentClass + '" onchange="updatePaymentStatusRealtime(\'' + encodeArg(item.id) + '\',this.value)">' +
+          '<option value="YES"' + (item.transStatus === "YES" ? " selected" : "") + '>YES</option>' +
+          '<option value="NO"' + (item.transStatus === "NO" ? " selected" : "") + '>NO</option></select></td>' +
+          '<td class="text-center"><div class="btn-group btn-group-sm">' +
+          '<button type="button" class="btn btn-outline-warning" title="Sửa giao dịch" onclick="editTransaction(\'' + encodeArg(item.id) + '\')"><i class="fa-solid fa-pen"></i></button>' +
+          '<button type="button" class="btn btn-outline-danger" title="Hủy giao dịch" onclick="cancelTransaction(\'' + encodeArg(item.id) + '\')"><i class="fa-solid fa-trash"></i></button>' +
+          '</div></td></tr>';
+      });
+      tbody.innerHTML = html;
+      setText("dash-month-revenue", formatVnd(total));
+    }
+function checkTimeStatus(expiryDateInput) {
+  const expiryDate = expiryDateInput instanceof Date ? expiryDateInput : parseDateString(expiryDateInput);
+  if (!expiryDate) return { code: "het-han", text: "Đã hết hạn", cssClass: "status-secondary", priority: 1 };
+  const now = new Date();
+  const expiryMonth = expiryDate.getFullYear() * 12 + expiryDate.getMonth();
+  const currentMonth = now.getFullYear() * 12 + now.getMonth();
+  const diffMonths = expiryMonth - currentMonth;
+  if (diffMonths < 0) return { code: "het-han", text: "Đã hết hạn", cssClass: "status-secondary", priority: 1 };
+  if (diffMonths === 0) return { code: "han-trong-thang", text: "Hạn trong tháng", cssClass: "status-danger", priority: 2 };
+  if (diffMonths === 1) return { code: "sap-het-1", text: "Còn 1 tháng", cssClass: "status-orange", priority: 3 };
+  if (diffMonths <= 3) return { code: "sap-het-2-3", text: "Còn 2–3 tháng", cssClass: "status-warning", priority: 4 };
+  return { code: "con-han", text: "Còn hạn", cssClass: "status-active", priority: 5 };
+}
+
+function isCurrentMonth(expiryDateInput) {
+  const expiryDate = expiryDateInput instanceof Date ? expiryDateInput : parseDateString(expiryDateInput);
+  if (!expiryDate) return false;
+  const now = new Date();
+  return expiryDate.getFullYear() === now.getFullYear() && expiryDate.getMonth() === now.getMonth();
+}
+function buildCompanyGroups() {
+  const groups = new Map();
+  state.rawServices.forEach(item => {
+    const mst = String(item.mst || "").trim();
+    if (!mst) return;
+    if (!groups.has(mst)) groups.set(mst, { mst, name: item.name || "", services: [] });
+    groups.get(mst).services.push(item);
+  });
+  return [...groups.values()];
+}
+function enrichCompanyStats(companies) {
+  let totalActive = 0;
+  let totalExpiredCompanies = 0;
+  let totalExpiredPackages = 0;
+
+  companies.forEach(company => {
+    company.statuses = company.services.map(service => checkTimeStatus(service.expiryDate));
+    company.active = company.statuses.some(status => status.code !== "het-han");
+    company.expired = company.statuses.filter(status => status.code === "het-han").length;
+    company.status = company.active
+      ? { code: "con-han", text: "Còn hoạt động", cssClass: "status-active", priority: 1 }
+      : { code: "het-han", text: "Ngừng dùng", cssClass: "status-secondary", priority: 2 };
+
+    if (company.active) totalActive++;
+    if (company.expired > 0) totalExpiredCompanies++;
+    totalExpiredPackages += company.expired;
+  });
+
+  return { totalActive, totalExpiredCompanies, totalExpiredPackages };
+}
+
+function normalizeSearchText(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "d")
+    .toLowerCase()
+    .trim();
+}
+
+function syncSearchClearButton() {
+  const input = $("#searchQuery");
+  const button = $("#btnClearSearch");
+  if (!input || !button) return;
+  const hasValue = input.value.length > 0;
+  button.hidden = !hasValue;
+  input.classList.toggle("has-clear", hasValue);
+}
+
+function clearSearchQuery() {
+  const input = $("#searchQuery");
+  if (!input) return;
+  input.value = "";
+  syncSearchClearButton();
+  renderMainTable();
+  input.focus();
+}
+
+function renderMainTable() {
+  const tbody = $("#mainTableBody");
+  const query = normalizeSearchText(getValue("searchQuery"));
+  syncSearchClearButton();
+  const filterStatus = getValue("filterExpiryStatus");
+  const allCompanies = buildCompanyGroups();
+  const totals = enrichCompanyStats(allCompanies);
+  const filteredCompanies = allCompanies.filter(company => {
+    const matchesSearch = !query ||
+      normalizeSearchText(company.mst).includes(query) ||
+      normalizeSearchText(company.name).includes(query);
+    const matchesStatus = filterStatus === "all" ||
+      company.statuses.some(status => status.code === filterStatus);
+    return matchesSearch && matchesStatus;
+  });
+
+  if (!filteredCompanies.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fa-solid fa-magnifying-glass fs-4 d-block mb-2"></i>Không tìm thấy kết quả phù hợp.</td></tr>';
+  } else {
+    tbody.innerHTML = filteredCompanies.map((company, index) => {
+      const packageText = company.services.length + " gói";
+      return '<tr class="table-clickable" onclick="openCompanyDetail(\'' + encodeArg(company.mst) + '\')">' +
+        '<td class="text-center">' + (index + 1) + '</td>' +
+        '<td>' + escapeHtml(company.mst) + '</td>' +
+        '<td><strong>' + escapeHtml(company.name) + '</strong></td>' +
+        '<td class="text-center"><span class="badge text-bg-' + (company.expired > 0 ? 'danger' : 'secondary') + '" title="Số gói đã hết hạn">' + company.expired + '</span></td>' +
+        '<td class="text-center"><span class="status-badge ' + company.status.cssClass + '" title="Trạng thái tổng theo MST"><i class="fa-solid ' + (company.active ? 'fa-circle-check' : 'fa-circle-xmark') + '"></i>' + escapeHtml(company.status.text) + '</span></td>' +
+        '<td class="text-center" onclick="event.stopPropagation()"><button type="button" class="btn btn-sm btn-outline-primary" title="Cập nhật thông tin doanh nghiệp và dịch vụ" aria-label="Cập nhật ' + escapeHtml(company.mst) + '" onclick="loadCompanyToForm(\'' + encodeArg(company.mst) + '\')"><i class="fa-solid fa-pen me-1"></i>Cập nhật</button></td>' +
+        '</tr>';
+    }).join("");
+  }
+
+  setText("dash-total-dn", allCompanies.length);
+  setText("dash-active-dn", totals.totalActive);
+  setText("dash-expired-srv", totals.totalExpiredCompanies);
+  renderTransactionTable();
+}
+
+function openStatsModal(mode) {
+  state.statsMode = mode || "total";
+  const companies = buildCompanyGroups();
+  const serviceMap = new Map();
+  let selectedMst = 0;
+  let packageCount = 0;
+  companies.forEach(company => {
+    const statuses = company.services.map(service => checkTimeStatus(service.expiryDate));
+    const hasActive = statuses.some(status => status.code !== "het-han");
+    const hasExpired = statuses.some(status => status.code === "het-han");
+    let services = company.services;
+    if (state.statsMode === "active") {
+      if (!hasActive) return;
+      services = company.services.filter(service => checkTimeStatus(service.expiryDate).code !== "het-han");
+    } else if (state.statsMode === "expired") {
+      if (!hasExpired) return;
+      services = company.services.filter(service => checkTimeStatus(service.expiryDate).code === "het-han");
+    }
+    selectedMst++;
+    services.forEach(service => {
+      packageCount++;
+      const name = String(service.service || "Chưa xác định").trim() || "Chưa xác định";
+      if (!serviceMap.has(name)) serviceMap.set(name, { total: 0, active: 0, twoThree: 0, one: 0, current: 0, expired: 0 });
+      const row = serviceMap.get(name);
+      row.total++;
+      const code = checkTimeStatus(service.expiryDate).code;
+      if (code === "con-han") row.active++;
+      else if (code === "sap-het-2-3") row.twoThree++;
+      else if (code === "sap-het-1") row.one++;
+      else if (code === "han-trong-thang") row.current++;
+      else row.expired++;
+    });
+  });
+  const titleMap = { total: "Tổng số doanh nghiệp", active: "Đang hoạt động", expired: "Dịch vụ hết hạn" };
+  setText("statsModalTitle", titleMap[state.statsMode] || "Thống kê");
+  setText("statsSummary", "MST: " + selectedMst + " · Tổng số gói: " + packageCount);
+  const rows = Array.from(serviceMap.entries()).sort((a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0], "vi"));
+  const tbody = $("#statsTableBody");
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Không có dữ liệu.</td></tr>';
+  } else {
+    tbody.innerHTML = rows.map((entry, index) => {
+      const name = entry[0], row = entry[1];
+      return '<tr>' +
+        '<td class="text-center">' + (index + 1) + '</td>' +
+        '<td>' + escapeHtml(name) + '</td>' +
+        '<td class="text-center"><span class="status-badge status-active">' + row.active + '</span></td>' +
+        '<td class="text-center"><span class="status-badge status-warning">' + row.twoThree + '</span></td>' +
+        '<td class="text-center"><span class="status-badge status-orange">' + row.one + '</span></td>' +
+        '<td class="text-center"><span class="status-badge status-danger">' + row.current + '</span></td>' +
+        '<td class="text-center"><span class="status-badge status-secondary">' + row.expired + '</span></td>' +
+        '<td class="text-center"><strong>' + row.total + '</strong></td>' +
+        '</tr>';
+    }).join("");
+  }
+  bootstrap.Modal.getOrCreateInstance($("#statsModal")).show();
+}
+
+function openCompanyDetail(encodedMst) {
+  const mst = decodeArg(encodedMst);
+  state.currentMst = mst;
+  if (!renderCompanyDetail(mst)) return;
+  const firstTab = $("#tabServicesBtn");
+  if (firstTab) bootstrap.Tab.getOrCreateInstance(firstTab).show();
+  bootstrap.Modal.getOrCreateInstance($("#detailModal")).show();
+}
+
+/* Chỉ vẽ lại nội dung modal chi tiết (không mở modal) để có thể gọi lại sau khi dữ liệu thay đổi */
+function renderCompanyDetail(mst) {
+  const services = state.rawServices.filter(item => String(item.mst) === String(mst));
+  if (!services.length) return false;
+
+  setText("modalTitleCompany", services[0].name);
+  setText("modalTxtMst", "MST: " + mst);
+  setText("modalPackageCount", "Tổng số gói: " + services.length);
+
+  const statusCounts = {
+    "con-han": 0,
+    "sap-het-2-3": 0,
+    "sap-het-1": 0,
+    "han-trong-thang": 0,
+    "het-han": 0
+  };
+
+  services.forEach(service => {
+    const code = checkTimeStatus(service.expiryDate).code;
+    if (Object.prototype.hasOwnProperty.call(statusCounts, code)) statusCounts[code]++;
+  });
+
+  setText("detailStatusActive", "Còn hạn: " + statusCounts["con-han"]);
+  setText("detailStatus2_3", "2–3 tháng: " + statusCounts["sap-het-2-3"]);
+  setText("detailStatus1", "1 tháng: " + statusCounts["sap-het-1"]);
+  setText("detailStatusCurrent", "Hạn trong tháng: " + statusCounts["han-trong-thang"]);
+  setText("detailStatusExpired", "Đã hết hạn: " + statusCounts["het-han"]);
+
+  const tbody = $("#modalTableBody");
+  tbody.innerHTML = services.map((service, index) => {
+    const status = checkTimeStatus(service.expiryDate);
+    const globalIndex = state.rawServices.indexOf(service);
+    const linkHtml = service.link
+      ? '<a href="' + escapeHtml(service.link) + '" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary" title="Mở link đăng nhập dịch vụ" aria-label="Mở link đăng nhập dịch vụ"><i class="fa-solid fa-link"></i></a>'
+      : "";
+    return '<tr>' +
+      '<td>' + (index + 1) + '</td>' +
+      '<td>' + escapeHtml(service.name) + '</td>' +
+      '<td>' + escapeHtml(service.mst) + '</td>' +
+      '<td>' + escapeHtml(service.contactName) + '</td>' +
+      '<td>' + escapeHtml(service.contactPhone) + '</td>' +
+      '<td>' + escapeHtml(service.contactEmail) + '</td>' +
+      '<td>' + escapeHtml(service.service) + '</td>' +
+      '<td>' + escapeHtml(formatDateToString(service.startDate)) + '</td>' +
+      '<td>' + escapeHtml(service.years) + '</td>' +
+      '<td>' + escapeHtml(formatDateToString(service.expiryDate)) + '</td>' +
+      '<td class="text-center"><span class="status-badge ' + status.cssClass + '">' + escapeHtml(status.text) + '</span></td>' +
+      '<td>' + escapeHtml(service.note) + '</td>' +
+      '<td class="text-center">' + linkHtml + '</td>' +
+      '<td>' + escapeHtml(service.user) + '</td>' +
+      '<td>' + escapeHtml(service.pass) + '</td>' +
+      '<td><div class="btn-group btn-group-sm">' +
+        '<button type="button" class="btn btn-outline-warning" title="Sửa thông tin dịch vụ" aria-label="Sửa thông tin dịch vụ" onclick="loadSingleServiceToForm(' + globalIndex + ')"><i class="fa-solid fa-pen"></i></button>' +
+        '<button type="button" class="btn btn-outline-info" title="Gia hạn dịch vụ" aria-label="Gia hạn dịch vụ" onclick="openQuickRenewModal(\'' + encodeArg(service.mst) + '\',\'' + encodeArg(service.service) + '\',\'' + encodeArg(service.id) + '\')"><i class="fa-solid fa-clock-rotate-left"></i></button>' +
+      '</div></td>' +
+      '</tr>';
+  }).join("");
+  renderCompanyHistory(services);
+  return true;
+}
+
+/* Tab "Lịch sử gia hạn": mỗi dịch vụ gồm các kỳ cũ (history) + kỳ hiện tại, ghép với giao dịch KPI theo ID */
+function renderCompanyHistory(services) {
+  const tbody = $("#modalHistoryBody");
+  if (!tbody) return;
+  const kpiById = new Map();
+  (state.kpiServices || []).forEach(item => {
+    const id = String(item.id || "").trim();
+    if (id) kpiById.set(id, item);
+  });
+  let renewCount = 0;
+  const html = services.map(service => {
+    const periods = [];
+    (Array.isArray(service.history) ? service.history : []).forEach(entry => {
+      periods.push({ start: entry.date, years: entry.years, expiry: entry.expiry, id: entry.id, current: false });
+    });
+    periods.push({ start: service.startDate, years: service.years, expiry: service.expiryDate, id: service.idKpi || service.id, current: true });
+    renewCount += periods.length - 1;
+    const rows = periods.map((period, index) => {
+      const kpi = kpiById.get(String(period.id || "").trim());
+      const label = index === 0 ? "Đăng ký mới" : "Gia hạn lần " + index;
+      const typeHtml = kpi
+        ? '<span class="badge text-bg-' + (kpi.transType === "Mới" ? "success" : "primary") + '">' + escapeHtml(kpi.transType || "N/A") + '</span>'
+        : '<span class="text-secondary">—</span>';
+      const amountHtml = kpi ? formatVnd(Number(kpi.transAmount) || 0) : '<span class="text-secondary">—</span>';
+      const payHtml = kpi
+        ? '<span class="badge text-bg-' + (kpi.transStatus === "YES" ? "success" : "danger") + '">' + (kpi.transStatus === "YES" ? "Đã thanh toán" : "Chưa thanh toán") + '</span>'
+        : '<span class="text-secondary">—</span>';
+      const noteHtml = period.current ? '<span class="badge text-bg-info">Hiện tại</span>' : "";
+      return '<tr' + (period.current ? ' class="table-info"' : '') + '>' +
+        '<td>' + escapeHtml(service.service) + '</td>' +
+        '<td>' + escapeHtml(label) + '</td>' +
+        '<td>' + escapeHtml(formatDateToString(period.start)) + '</td>' +
+        '<td>' + escapeHtml(period.years) + '</td>' +
+        '<td>' + escapeHtml(formatDateToString(period.expiry)) + '</td>' +
+        '<td>' + typeHtml + '</td>' +
+        '<td class="text-end">' + amountHtml + '</td>' +
+        '<td class="text-center">' + payHtml + '</td>' +
+        '<td class="text-center">' + noteHtml + '</td>' +
+        '</tr>';
+    });
+    return rows.reverse().join("");
+  }).join("");
+  tbody.innerHTML = html || '<tr><td colspan="9" class="empty-state">Chưa có lịch sử.</td></tr>';
+  setText("detailHistoryCount", String(renewCount));
+}
+
+/* ===== Nhắc hạn: gói hết hạn trong tháng này, còn 1 tháng, còn 2 tháng ===== */
+const REMINDER_LEVELS = [
+  { diff: 0, label: "Hạn trong tháng", cssClass: "status-danger" },
+  { diff: 1, label: "Còn 1 tháng", cssClass: "status-orange" },
+  { diff: 2, label: "Còn 2 tháng", cssClass: "status-warning" }
+];
+
+function getReminderItems() {
+  const now = new Date();
+  const currentMonth = now.getFullYear() * 12 + now.getMonth();
+  const items = [];
+  (state.rawServices || []).forEach(service => {
+    const expiry = service.expiryDate instanceof Date ? service.expiryDate : parseDateString(service.expiryDate);
+    if (!expiry) return;
+    const diff = expiry.getFullYear() * 12 + expiry.getMonth() - currentMonth;
+    if (diff < 0 || diff > 2) return;
+    items.push({ service, diff, expiry });
+  });
+  items.sort((a, b) => a.expiry - b.expiry || String(a.service.name).localeCompare(String(b.service.name), "vi"));
+  return items;
+}
+
+function updateReminderBadge() {
+  const badge = $("#reminderBadge");
+  if (!badge) return;
+  const count = getReminderItems().length;
+  badge.textContent = count > 99 ? "99+" : String(count);
+  badge.hidden = count === 0;
+}
+
+function setReminderFilter(value) {
+  state.reminderFilter = value === "all" ? "all" : Number(value);
+  renderReminderList();
+}
+
+function renderReminderList() {
+  const tbody = $("#reminderTableBody");
+  if (!tbody) return;
+  const items = getReminderItems();
+  const filter = state.reminderFilter === undefined ? "all" : state.reminderFilter;
+  const counts = [0, 0, 0];
+  items.forEach(item => counts[item.diff]++);
+  setText("reminderTotal", String(items.length));
+
+  const chip = (value, text, count, cssClass) =>
+    '<button type="button" class="status-badge ' + cssClass + ' reminder-chip' +
+    (String(filter) === String(value) ? " active" : "") +
+    '" onclick="setReminderFilter(\'' + value + '\')">' + text + ': ' + count + '</button>';
+  $("#reminderSummary").innerHTML =
+    chip("all", "Tất cả", items.length, "status-secondary") +
+    REMINDER_LEVELS.map(level => chip(level.diff, level.label, counts[level.diff], level.cssClass)).join("");
+
+  if (!items.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Không có gói nào hết hạn trong 2 tháng tới.</td></tr>';
+    return;
+  }
+  const now = new Date();
+  let index = 0;
+  let html = "";
+  REMINDER_LEVELS.forEach(level => {
+    if (filter !== "all" && Number(filter) !== level.diff) return;
+    const group = items.filter(item => item.diff === level.diff);
+    if (!group.length) return;
+    const target = new Date(now.getFullYear(), now.getMonth() + level.diff, 1);
+    html += '<tr class="reminder-group-row"><td colspan="7">' + level.label +
+      ' (hạn ' + (target.getMonth() + 1) + '/' + target.getFullYear() + ') - ' + group.length + ' gói</td></tr>';
+    group.forEach(item => {
+      const service = item.service;
+      index++;
+      const contact = [service.contactName, service.contactPhone, service.contactEmail]
+        .filter(value => String(value || "").trim())
+        .map(value => escapeHtml(value))
+        .join('<br>');
+      html += '<tr>' +
+        '<td>' + index + '</td>' +
+        '<td><strong>' + escapeHtml(service.name) + '</strong><div class="small text-secondary">MST: ' + escapeHtml(service.mst) + '</div></td>' +
+        '<td class="small">' + contact + '</td>' +
+        '<td>' + escapeHtml(service.service) + '</td>' +
+        '<td>' + escapeHtml(formatDateToString(item.expiry)) + '</td>' +
+        '<td class="text-center"><span class="status-badge ' + level.cssClass + '">' + level.label + '</span></td>' +
+        '<td class="text-center"><div class="btn-group btn-group-sm">' +
+          '<button type="button" class="btn btn-outline-info" title="Gia hạn dịch vụ" aria-label="Gia hạn dịch vụ" onclick="openQuickRenewModal(\'' + encodeArg(service.mst) + '\',\'' + encodeArg(service.service) + '\',\'' + encodeArg(service.id) + '\')"><i class="fa-solid fa-clock-rotate-left"></i></button>' +
+          '<button type="button" class="btn btn-outline-primary" title="Xem chi tiết doanh nghiệp" aria-label="Xem chi tiết doanh nghiệp" onclick="openDetailFromReminder(\'' + encodeArg(service.mst) + '\')"><i class="fa-solid fa-eye"></i></button>' +
+        '</div></td>' +
+        '</tr>';
+    });
+  });
+  tbody.innerHTML = html;
+}
+
+function openReminderModal() {
+  state.reminderFilter = "all";
+  renderReminderList();
+  bootstrap.Modal.getOrCreateInstance($("#reminderModal")).show();
+}
+
+function openDetailFromReminder(encodedMst) {
+  const modalEl = $("#reminderModal");
+  const instance = bootstrap.Modal.getInstance(modalEl);
+  if (instance && modalEl.classList.contains("show")) {
+    modalEl.addEventListener("hidden.bs.modal", () => openCompanyDetail(encodedMst), { once: true });
+    instance.hide();
+  } else {
+    openCompanyDetail(encodedMst);
+  }
+}
+
+function refreshOpenReminderModal() {
+  const modalEl = $("#reminderModal");
+  if (modalEl && modalEl.classList.contains("show")) renderReminderList();
+}
+
+/* Gọi sau mỗi lần dữ liệu thay đổi: modal chi tiết, nhắc hạn (badge + danh sách) */
+function refreshAfterDataChange() {
+  refreshOpenDetailModal();
+  updateReminderBadge();
+  refreshOpenReminderModal();
+  if (!state.reminderNotified && (state.rawServices || []).length) {
+    state.reminderNotified = true;
+    const total = getReminderItems().length;
+    if (total > 0) notify.warning("Có " + total + " gói hết hạn trong 2 tháng tới. Bấm nút Nhắc hạn để xem.");
+  }
+}
+
+/* Nếu modal chi tiết đang mở thì vẽ lại theo dữ liệu mới nhất */
+function refreshOpenDetailModal() {
+  const modalEl = $("#detailModal");
+  if (!modalEl || !modalEl.classList.contains("show") || !state.currentMst) return;
+  if (!renderCompanyDetail(state.currentMst)) {
+    bootstrap.Modal.getInstance(modalEl)?.hide();
+  }
+}
+
+/* Cập nhật tức thì dữ liệu cục bộ sau khi gia hạn (server trả về bản ghi đã cập nhật) */
+function applyRenewResultLocally(uniqueID, updated) {
+  if (!updated) return false;
+  const key = String(uniqueID || "").trim();
+  const item = state.rawServices.find(row =>
+    String(row.id || "").trim() === key ||
+    String(row.idKpi || "").trim() === key
+  );
+  if (!item) return false;
+  item.startDate = updated.startDate;
+  item.years = updated.years;
+  item.idKpi = updated.idKpi;
+  item.expiryDate = parseDateString(updated.expiryDate);
+  if (Array.isArray(updated.history)) item.history = updated.history;
+  return true;
+}
+async function handleFormSubmit(
+      event
+    ) {
+      event.preventDefault();
+      const mode =
+        getValue(
+          "editServiceIndex"
+        );
+      const calculatedExpiry =
+        autoCalculateExpiry();
+      const payload = {
+        mst:
+          getValue("formMst"),
+        name:
+          getValue("formName"),
+        service:
+          getValue("formService"),
+        startDate:
+          getValue("formStartDate"),
+        years:
+          Number(
+            getValue("formYears")
+          ) || 0,
+        expiryDate:
+          formatDateToString(
+            calculatedExpiry
+          ),
+        transType:
+          getValue("formTransType"),
+        transAmount:
+          getCleanAmount(
+            getValue(
+              "formTransAmount"
+            )
+          ),
+        transStatus:
+          getValue("formTransStatus"),
+        contactName:
+          getValue("formContactName"),
+        contactPhone:
+          getValue("formContactPhone"),
+        contactEmail:
+          getValue("formContactEmail"),
+        note:
+          getValue("formNote"),
+        link:
+          getValue("formLink"),
+        user:
+          getValue("formUser"),
+        pass:
+          getValue("formPass"),
+        id:
+          getValue("formId"),
+        history:
+          state.dataItem?.history ??
+          [],
+        idKpi:
+          getValue("formIdKpi")
+      };
+      const messages = {
+        DATA: [
+          "Thêm doanh nghiệp?",
+          "Bạn có chắc muốn thêm doanh nghiệp mới?"
+        ],
+        EDIT: [
+          "Cập nhật giao dịch?",
+          "Thông tin giao dịch hiện tại sẽ được cập nhật."
+        ],
+        SYNC_SERVICE: [
+          "Đồng bộ dịch vụ?",
+          "Thông tin dịch vụ sẽ được cập nhật trên DATA và KPI."
+        ],
+        SYNC_COMPANY: [
+          "Cập nhật doanh nghiệp?",
+          "Thông tin doanh nghiệp sẽ được đồng bộ."
+        ]
+      };
+      const [
+        title,
+        text
+      ] =
+        messages[mode] ??
+        messages.DATA;
+      const confirmed =
+        await confirmAction(
+          title,
+          text
+        );
+      if (!confirmed) {
+        return;
+      }
+      loading.show(
+        "Đang lưu dữ liệu..."
+      );
+      const success =
+        response => {
+          loading.hide();
+          if (
+            response?.status ===
+            "ERROR"
+          ) {
+            notify.error(
+              response.message
+            );
+            return;
+          }
+          notify.success(
+            response?.message ||
+            "Thao tác thành công."
+          );
+          resetForm();
+          loadDataFromDrive();
+        };
+      const failure =
+        error => {
+          loading.hide();
+          notify.error(
+            error?.message ||
+            "Có lỗi xảy ra."
+          );
+        };
+      if (
+        mode ===
+        "SYNC_SERVICE"
+      ) {
+        google.script.run
+          .withSuccessHandler(
+            success
+          )
+          .withFailureHandler(
+            failure
+          )
+          .syncAllRelatedServices(
+            payload
+          );
+        return;
+      }
+      if (
+        mode ===
+        "SYNC_COMPANY"
+      ) {
+        google.script.run
+          .withSuccessHandler(
+            success
+          )
+          .withFailureHandler(
+            failure
+          )
+          .syncUpdateCompanyInfo(
+            payload
+          );
+        return;
+      }
+      if (
+        mode ===
+        "EDIT"
+      ) {
+        google.script.run
+          .withSuccessHandler(
+            success
+          )
+          .withFailureHandler(
+            failure
+          )
+          .updateTransaction(
+            payload
+          );
+        return;
+      }
+      google.script.run
+        .withSuccessHandler(
+          async response => {
+            if (
+              response?.status ===
+              "DUPLICATE"
+            ) {
+              loading.hide();
+              const force =
+                await confirmAction(
+                  "MST đã tồn tại",
+                  `${response.message} Bạn vẫn muốn thêm mới?`,
+                  "Vẫn thêm"
+                );
+              if (!force) {
+                return;
+              }
+              loading.show(
+                "Đang thêm dữ liệu..."
+              );
+              google.script.run
+                .withSuccessHandler(
+                  forceResponse => {
+                    loading.hide();
+                    if (
+                      forceResponse?.status ===
+                      "ERROR"
+                    ) {
+                      notify.error(
+                        forceResponse.message
+                      );
+                      return;
+                    }
+                    notify.success(
+                      forceResponse?.message ||
+                      "Đã thêm thành công."
+                    );
+                    resetForm();
+                    loadDataFromDrive();
+                  }
+                )
+                .withFailureHandler(
+                  error => {
+                    loading.hide();
+                    notify.error(
+                      error?.message ||
+                      "Không thể thêm dữ liệu."
+                    );
+                  }
+                )
+                .addNewServiceSheet(
+                  payload,
+                  true
+                );
+              return;
+            }
+            success(response);
+          }
+        )
+        .withFailureHandler(
+          failure
+        )
+        .addNewServiceSheet(
+          payload,
+          false
+        );
+    }
+function updatePaymentStatusRealtime(
+      encodedId,
+      newStatus
+    ) {
+      const id =
+        decodeArg(
+          encodedId
+        );
+      loading.show(
+        "Đang cập nhật thanh toán..."
+      );
+      google.script.run
+        .withSuccessHandler(
+          response => {
+            loading.hide();
+            if (
+              response?.status ===
+              "SUCCESS"
+            ) {
+              notify.success(
+                "Đã cập nhật trạng thái thanh toán."
+              );
+              loadDataFromDrive();
+            } else {
+              notify.error(
+                response?.message ||
+                "Không thể cập nhật."
+              );
+            }
+          }
+        )
+        .withFailureHandler(
+          error => {
+            loading.hide();
+            notify.error(
+              error?.message ||
+              "Lỗi hệ thống."
+            );
+          }
+        )
+        .updatePaymentStatusSheet(
+          id,
+          newStatus
+        );
+    }
+function editTransaction(
+      encodedId
+    ) {
+      const searchId =
+        decodeArg(
+          encodedId
+        ).trim();
+      const dataItem =
+        state.rawServices.find(
+          item =>
+            String(
+              item.idKpi || ""
+            ).trim() === searchId ||
+            String(
+              item.id || ""
+            ).trim() === searchId ||
+            (
+              item.history ||
+              []
+            ).some(
+              history =>
+                String(
+                  history.id || ""
+                ).trim() === searchId
+            )
+        );
+      const kpiItem =
+        state.kpiServices.find(
+          item =>
+            String(
+              item.id || ""
+            ).trim() === searchId
+        );
+      if (!dataItem) {
+        notify.error(
+          "Giao dịch không tồn tại."
+        );
+        return;
+      }
+      state.dataItem =
+        dataItem;
+      const currentActiveId =
+        String(
+          dataItem.idKpi || ""
+        ).trim();
+      const history =
+        Array.isArray(
+          dataItem.history
+        )
+          ? dataItem.history
+          : [];
+      const originalId =
+        String(
+          dataItem.id || ""
+        ).trim();
+      const validHistory =
+        history.filter(
+          item =>
+            item.id &&
+            String(
+              item.id
+            ).trim()
+        );
+      const latestId =
+        currentActiveId ||
+        String(
+          validHistory.at(-1)?.id ||
+          originalId
+        ).trim();
+      if (
+        searchId !==
+        latestId
+      ) {
+        notify.warning(
+          `Giao dịch này đã có bản ghi mới (${latestId}).`
+        );
+        return;
+      }
+      setValue(
+        "editServiceIndex",
+        "EDIT"
+      );
+      setValue(
+        "formId",
+        dataItem.idKpi ||
+        dataItem.id
+      );
+      setValue(
+        "formIdKpi",
+        dataItem.idKpi ||
+        ""
+      );
+      setValue(
+        "formMst",
+        dataItem.mst ||
+        kpiItem?.mst ||
+        ""
+      );
+      setValue(
+        "formName",
+        dataItem.name ||
+        kpiItem?.name ||
+        ""
+      );
+      setValue(
+        "formService",
+        dataItem.service ||
+        kpiItem?.service ||
+        ""
+      );
+      setValue(
+        "formStartDate",
+        formatDateToString(
+          dataItem.startDate ||
+          kpiItem?.startDate
+        )
+      );
+      setValue(
+        "formYears",
+        dataItem.years ||
+        ""
+      );
+      setValue(
+        "formEndDate",
+        formatDateToString(
+          dataItem.expiryDate
+        )
+      );
+      setValue(
+        "formTransType",
+        kpiItem?.transType ||
+        ""
+      );
+      setValue(
+        "formTransAmount",
+        getCleanAmount(
+          kpiItem?.transAmount
+        ).toLocaleString(
+          "vi-VN"
+        )
+      );
+      setValue(
+        "formTransStatus",
+        kpiItem?.transStatus ||
+        "NO"
+      );
+      setValue(
+        "formIdKpiTrans",
+        kpiItem?.id ||
+        ""
+      );
+      state.oldYears =
+        Number(
+          dataItem.years
+        ) || 0;
+      [
+        "formMst",
+        "formName",
+        "formService",
+        "formContactName",
+        "formContactPhone",
+        "formContactEmail",
+        "formEndDate",
+        "formTransStatus",
+        "formUser",
+        "formPass",
+        "formLink",
+        "formNote"
+      ].forEach(
+        id => {
+          const element =
+            $(`#${id}`);
+          if (!element) {
+            return;
+          }
+          element.readOnly =
+            true;
+        }
+      );
+      [
+        "formStartDate",
+        "formYears",
+        "formTransType",
+        "formTransAmount"
+      ].forEach(
+        id => {
+          const element =
+            $(`#${id}`);
+          if (!element) {
+            return;
+          }
+          element.disabled =
+            false;
+          element.readOnly =
+            false;
+        }
+      );
+      $("#btnFormSubmit").className =
+        "btn btn-warning px-4";
+      $("#btnFormSubmit").innerHTML =
+        `<i class="fa-solid fa-pen me-1"></i>
+         Cập nhật & Đồng bộ`;
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+async function cancelTransaction(
+      encodedId
+    ) {
+      const uniqueID =
+        decodeArg(
+          encodedId
+        ).trim();
+      const dataItem =
+        state.rawServices.find(
+          item =>
+            String(
+              item.idKpi || ""
+            ).trim() === uniqueID ||
+            String(
+              item.id || ""
+            ).trim() === uniqueID ||
+            (
+              item.history ||
+              []
+            ).some(
+              history =>
+                String(
+                  history.id || ""
+                ).trim() ===
+                uniqueID
+            )
+        );
+      if (!dataItem) {
+        notify.error(
+          "Giao dịch không tồn tại."
+        );
+        return;
+      }
+      const latestId =
+        String(
+          dataItem.idKpi ||
+          dataItem.history?.at(-1)?.id ||
+          dataItem.id ||
+          ""
+        ).trim();
+      if (
+        uniqueID !==
+        latestId
+      ) {
+        notify.warning(
+          `Giao dịch này đã có bản ghi mới (${latestId}).`
+        );
+        return;
+      }
+      const confirmed =
+        await confirmAction(
+          "Hủy giao dịch?",
+          "Dữ liệu giao dịch hiện tại sẽ được xử lý khỏi KPI.",
+          "Hủy giao dịch"
+        );
+      if (!confirmed) {
+        return;
+      }
+      loading.show(
+        "Đang xử lý giao dịch..."
+      );
+      google.script.run
+        .withSuccessHandler(
+          response => {
+            loading.hide();
+            if (
+              response?.status ===
+              "SUCCESS"
+            ) {
+              notify.success(
+                "Đã hủy giao dịch."
+              );
+              loadDataFromDrive();
+            } else {
+              notify.error(
+                response?.message ||
+                "Không thể hủy giao dịch."
+              );
+            }
+          }
+        )
+        .withFailureHandler(
+          error => {
+            loading.hide();
+            notify.error(
+              error?.message ||
+              "Lỗi hệ thống."
+            );
+          }
+        )
+        .cancelTransactionSheet(
+          uniqueID
+        );
+    }
+function loadCompanyToForm(
+      encodedMst
+    ) {
+      const mst =
+        decodeArg(
+          encodedMst
+        );
+      const services =
+        state.rawServices.filter(
+          service =>
+            String(
+              service.mst
+            ) ===
+            String(mst)
+        );
+      if (!services.length) {
+        return;
+      }
+      const first =
+        services[0];
+      setValue(
+        "editServiceIndex",
+        "SYNC_COMPANY"
+      );
+      setValue(
+        "formMst",
+        first.mst
+      );
+      setValue(
+        "formName",
+        first.name
+      );
+      setValue(
+        "formContactName",
+        first.contactName
+      );
+      setValue(
+        "formContactPhone",
+        first.contactPhone
+      );
+      setValue(
+        "formContactEmail",
+        first.contactEmail
+      );
+      [
+        "formMst",
+        "formService",
+        "formStartDate",
+        "formYears",
+        "formEndDate",
+        "formTransType",
+        "formTransAmount",
+        "formTransStatus",
+        "formUser",
+        "formPass",
+        "formLink",
+        "formNote"
+      ].forEach(
+        id => {
+          const element =
+            $(`#${id}`);
+          if (!element) {
+            return;
+          }
+          element.disabled =
+            false;
+          element.readOnly =
+            true;
+        }
+      );
+      [
+        "formName",
+        "formContactName",
+        "formContactPhone",
+        "formContactEmail"
+      ].forEach(
+        id => {
+          const element =
+            $(`#${id}`);
+          if (element) {
+            element.readOnly =
+              false;
+          }
+        }
+      );
+      $("#btnFormSubmit").className =
+        "btn btn-warning px-4";
+      $("#btnFormSubmit").innerHTML =
+        `<i class="fa-solid fa-arrows-rotate me-1"></i>
+         Cập nhật & Đồng bộ`;
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+function loadSingleServiceToForm(
+      globalIndex
+    ) {
+      const service =
+        state.rawServices[
+          Number(globalIndex)
+        ];
+      if (!service) {
+        return;
+      }
+      bootstrap.Modal
+        .getInstance(
+          $("#detailModal")
+        )
+        ?.hide();
+      setValue(
+        "editServiceIndex",
+        "SYNC_SERVICE"
+      );
+      setValue(
+        "formId",
+        service.id ||
+        ""
+      );
+      setValue(
+        "formIdKpi",
+        service.idKpi ||
+        ""
+      );
+      setValue(
+        "editGlobalIndex",
+        globalIndex
+      );
+      setValue(
+        "formMst",
+        service.mst
+      );
+      setValue(
+        "formName",
+        service.name
+      );
+      setValue(
+        "formService",
+        service.service
+      );
+      setValue(
+        "formStartDate",
+        formatDateToString(
+          service.startDate
+        )
+      );
+      setValue(
+        "formYears",
+        service.years
+      );
+      setValue(
+        "formEndDate",
+        formatDateToString(
+          service.expiryDate
+        )
+      );
+      setValue(
+        "formTransType",
+        service.transType ||
+        "Mới"
+      );
+      setValue(
+        "formTransAmount",
+        getCleanAmount(
+          service.transAmount
+        ).toLocaleString(
+          "vi-VN"
+        )
+      );
+      setValue(
+        "formTransStatus",
+        service.transStatus ||
+        "NO"
+      );
+      setValue(
+        "formContactName",
+        service.contactName
+      );
+      setValue(
+        "formContactPhone",
+        service.contactPhone
+      );
+      setValue(
+        "formContactEmail",
+        service.contactEmail
+      );
+      setValue(
+        "formUser",
+        service.user
+      );
+      setValue(
+        "formPass",
+        service.pass
+      );
+      setValue(
+        "formLink",
+        service.link
+      );
+      setValue(
+        "formNote",
+        service.note
+      );
+      [
+        "formMst",
+        "formName",
+        "formContactName",
+        "formContactPhone",
+        "formContactEmail",
+        "formStartDate",
+        "formYears",
+        "formEndDate",
+        "formTransType",
+        "formTransAmount",
+        "formTransStatus"
+      ].forEach(
+        id => {
+          const element =
+            $(`#${id}`);
+          if (!element) {
+            return;
+          }
+          element.disabled =
+            false;
+          element.readOnly =
+            true;
+        }
+      );
+      [
+        "formService",
+        "formUser",
+        "formPass",
+        "formLink",
+        "formNote"
+      ].forEach(
+        id => {
+          const element =
+            $(`#${id}`);
+          if (!element) {
+            return;
+          }
+          element.disabled =
+            false;
+          element.readOnly =
+            false;
+        }
+      );
+      $("#btnFormSubmit").className =
+        "btn btn-warning px-4";
+      $("#btnFormSubmit").innerHTML =
+        `<i class="fa-solid fa-floppy-disk me-1"></i>
+         Cập nhật`;
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+function openQuickRenewModal(
+      encodedMst,
+      encodedService,
+      encodedId
+    ) {
+      state.currentRenewId =
+        decodeArg(
+          encodedId
+        );
+      const item =
+        state.rawServices.find(
+          row =>
+            String(
+              row.id || ""
+            ).trim() ===
+              state.currentRenewId ||
+            String(
+              row.idKpi || ""
+            ).trim() ===
+              state.currentRenewId
+        );
+      state.renewPrevMode = getValue("editServiceIndex");
+      state.renewPrevId = getValue("formId");
+      if (item) {
+        setValue(
+          "formId",
+          state.currentRenewId
+        );
+      }
+      setValue(
+        "quickRenewYears",
+        "0"
+      );
+      setValue(
+        "quickRenewAmount",
+        "0"
+      );
+      setValue(
+        "editServiceIndex",
+        "RENEW"
+      );
+      bootstrap.Modal
+        .getOrCreateInstance(
+          $("#renewQuickModal")
+        )
+        .show();
+    }
+    async function confirmQuickRenew() {
+      const uniqueID =
+        state.currentRenewId;
+      const addYears =
+        Number(
+          getValue(
+            "quickRenewYears"
+          )
+        ) || 0;
+      const money =
+        getCleanAmount(
+          getValue(
+            "quickRenewAmount"
+          )
+        );
+      if (addYears <= 0) {
+        notify.warning(
+          "Vui lòng nhập số năm gia hạn."
+        );
+        return;
+      }
+      if (money <= 0) {
+        notify.warning(
+          "Vui lòng nhập số tiền hợp lệ."
+        );
+        return;
+      }
+      const expiryDate =
+        autoCalculateExpiry();
+      const expiryStr =
+        formatDateToString(
+          expiryDate
+        );
+      loading.show(
+        "Đang gia hạn dịch vụ..."
+      );
+      google.script.run
+        .withSuccessHandler(
+          response => {
+            loading.hide();
+            if (
+              response?.status ===
+              "SUCCESS"
+            ) {
+              const appliedLocally =
+                applyRenewResultLocally(
+                  uniqueID,
+                  response.updated
+                );
+              bootstrap.Modal
+                .getInstance(
+                  $("#renewQuickModal")
+                )
+                ?.hide();
+              state.currentRenewId =
+                null;
+              notify.success(
+                "Đã gia hạn thành công."
+              );
+              if (appliedLocally) {
+                /* Hiển thị ngay, sau đó đồng bộ nền để lấy KPI/giao dịch mới */
+                renderMainTable();
+                refreshAfterDataChange();
+                loadDataFromDrive({ silent: true });
+              } else {
+                loadDataFromDrive();
+              }
+            } else {
+              notify.error(
+                response?.message ||
+                "Không thể gia hạn."
+              );
+            }
+          }
+        )
+        .withFailureHandler(
+          error => {
+            loading.hide();
+            notify.error(
+              error?.message ||
+              "Có lỗi kết nối khi gia hạn."
+            );
+          }
+        )
+        .renewServiceQuickSheet(
+          uniqueID,
+          addYears,
+          money,
+          expiryStr
+        );
+    }
+function openPaymentModal(
+      encodedMst,
+      encodedAmount
+    ) {
+      state.currentCustomer =
+        decodeArg(
+          encodedMst
+        );
+      state.currentAmount = decodeArg(encodedAmount);
+      if (!state.banks.length) {
+        notify.warning("Chưa có tài khoản ngân hàng đang hoạt động.");
+        return;
+      }
+      updatePaymentContent();
+      bootstrap.Modal
+        .getOrCreateInstance(
+          $("#paymentModal")
+        )
+        .show();
+    }
+    function updatePaymentContent() {
+      const bank = getSelectedBank();
+      const textArea = $("#paymentContent");
+      if (!bank) {
+        if (textArea) textArea.value = "";
+        $("#qrCodeImage").removeAttribute("src");
+        return;
+      }
+      const amount = Number(String(state.currentAmount).replace(/[^0-9]/g, "")) || 0;
+      textArea.value = bankTemplate(bank.paymentTemplate, bank, amount, state.currentCustomer);
+      generateAndShowQR();
+    }
+
+    async function copyPaymentContent() {
+      try {
+        await navigator.clipboard.writeText(
+          $("#paymentContent").value
+        );
+        notify.success(
+          "Đã copy nội dung thanh toán."
+        );
+      } catch {
+        notify.error(
+          "Không thể copy trên thiết bị này."
+        );
+      }
+    }
+    async function copyQrCode() {
+      try {
+        const image =
+          $("#qrCodeImage");
+        if (!image?.src) {
+          throw new Error();
+        }
+        const response =
+          await fetch(
+            image.src
+          );
+        if (!response.ok) {
+          throw new Error();
+        }
+        const blob =
+          await response.blob();
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            [blob.type]: blob
+          })
+        ]);
+        notify.success(
+          "Đã copy mã QR."
+        );
+      } catch {
+        notify.error(
+          "Không thể copy QR trên thiết bị này."
+        );
+      }
+    }
+    function generateAndShowQR() {
+      const bank = getSelectedBank();
+      if (!bank) return;
+      const amount = Number(String(state.currentAmount).replace(/[^0-9]/g, "")) || 0;
+      const qrTemplate = bank.qrTemplate || "STANDARD_COMPACT2";
+      let qrUrl;
+      if (qrTemplate === "STANDARD_COMPACT2") {
+        qrUrl = [
+          "https:",
+          "//img.vietqr.io/image/",
+          String(bank.bin || ""),
+          "-",
+          String(bank.accountNumber || ""),
+          "-compact2.png?amount=",
+          String(amount),
+          String.fromCharCode(38),
+          "addInfo=",
+          encodeURIComponent("Thanh toan mst " + state.currentCustomer),
+          String.fromCharCode(38),
+          "accountName=",
+          encodeURIComponent(String(bank.accountName || ""))
+        ].join("");
+      } else {
+        qrUrl = bankTemplate(qrTemplate, bank, amount, state.currentCustomer);
+      }
+      $("#qrCodeImage").src = qrUrl;
+    }
+
+function openChartModal() {
+      bootstrap.Modal
+        .getOrCreateInstance(
+          $("#chartModal")
+        )
+        .show();
+      requestAnimationFrame(
+        updateChart
+      );
+    }
+    function updateChart() {
+      const year =
+        Number(
+          getValue(
+            "filterTransYear"
+          )
+        );
+      if (!year) {
+        return;
+      }
+      const previousYear =
+        year - 1;
+      const currentData =
+        Array(12).fill(0);
+      const previousData =
+        Array(12).fill(0);
+      state.kpiServices.forEach(
+        item => {
+          const date =
+            parseDateString(
+              item.startDate
+            );
+          if (!date) {
+            return;
+          }
+          const amount =
+            Number(
+              item.transAmount
+            ) || 0;
+          if (
+            date.getFullYear() ===
+            year
+          ) {
+            currentData[
+              date.getMonth()
+            ] += amount;
+          } else if (
+            date.getFullYear() ===
+            previousYear
+          ) {
+            previousData[
+              date.getMonth()
+            ] += amount;
+          }
+        }
+      );
+      const totalCurrent =
+        currentData.reduce(
+          (sum, value) =>
+            sum + value,
+          0
+        );
+      const totalPrevious =
+        previousData.reduce(
+          (sum, value) =>
+            sum + value,
+          0
+        );
+      const diff =
+        totalCurrent -
+        totalPrevious;
+      const percent =
+        totalPrevious === 0
+          ? 100
+          : (
+              diff /
+              totalPrevious *
+              100
+            ).toFixed(1);
+      setText(
+        "valCurrentYear",
+        formatVnd(
+          totalCurrent
+        )
+      );
+      setText(
+        "valPrevYear",
+        formatVnd(
+          totalPrevious
+        )
+      );
+      $("#valComparison").innerHTML =
+        diff >= 0
+          ? `
+            <span class="text-success">
+              ▲ ${Math.abs(percent)}%
+              <br>
+              <small>
+                (+${formatVnd(diff)})
+              </small>
+            </span>
+          `
+          : `
+            <span class="text-danger">
+              ▼ ${Math.abs(percent)}%
+              <br>
+              <small>
+                (${formatVnd(diff)})
+              </small>
+            </span>
+          `;
+      const canvas =
+        $("#revenueChart");
+      if (!canvas) {
+        return;
+      }
+      state.chart?.destroy();
+      state.chart =
+        new Chart(
+          canvas,
+          {
+            type: "line",
+            data: {
+              labels: [
+                "T1",
+                "T2",
+                "T3",
+                "T4",
+                "T5",
+                "T6",
+                "T7",
+                "T8",
+                "T9",
+                "T10",
+                "T11",
+                "T12"
+              ],
+              datasets: [
+                {
+                  label:
+                    `Năm ${year}`,
+                  data:
+                    currentData,
+                  borderColor:
+                    "#0d6efd",
+                  backgroundColor:
+                    "rgba(13,110,253,.08)",
+                  borderWidth: 2,
+                  tension: .3,
+                  fill: true,
+                  pointRadius: 3
+                },
+                {
+                  label:
+                    `Năm ${previousYear}`,
+                  data:
+                    previousData,
+                  borderColor:
+                    "#fd7e14",
+                  backgroundColor:
+                    "rgba(253,126,20,.08)",
+                  borderWidth: 2,
+                  tension: .3,
+                  fill: true,
+                  pointRadius: 3
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              interaction: {
+                intersect: false,
+                mode: "index"
+              },
+              plugins: {
+                legend: {
+                  position: "top"
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: value =>
+                      Number(value)
+                        .toLocaleString(
+                          "vi-VN"
+                        )
+                  }
+                }
+              }
+            }
+          }
+        );
+    }
+function resetBankForm() {
+  ["bankEditId","bankAccountNumber","bankBin","bankAccountName","bankName","bankBranch","bankBeneficiary","bankPaymentTemplate","bankQrTemplate","bankQrContentTemplate","bankSortOrder"].forEach(id => setValue(id, ""));
+  setValue("bankBinPreset", "");
+  setValue("bankActive", "TRUE");
+}
+
+function openBankConfig() {
+  resetBankForm();
+  renderBankMasterOptions();
+  loadBankConfig();
+  bootstrap.Modal.getOrCreateInstance($("#bankConfigModal")).show();
+}
+
+function loadBankConfig() {
+  $("#bankConfigTableBody").innerHTML = '<tr><td colspan="7" class="empty-state">Đang tải dữ liệu...</td></tr>';
+  google.script.run
+    .withSuccessHandler(result => renderBankConfig(result?.data || []))
+    .withFailureHandler(error => notify.error(error?.message || "Không thể tải cấu hình Bank."))
+    .getBankConfigList();
+}
+
+function renderBankConfig(list) {
+  const tbody = $("#bankConfigTableBody");
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Chưa có tài khoản Bank.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map((bank, index) => {
+    const action = bank.active
+      ? '<button type="button" class="btn btn-sm btn-outline-warning" title="Khóa tài khoản" onclick="toggleBankConfig(\'' + encodeArg(bank.bankId) + '\',false)"><i class="fa-solid fa-lock"></i></button>'
+      : '<button type="button" class="btn btn-sm btn-outline-success" title="Mở khóa tài khoản" onclick="toggleBankConfig(\'' + encodeArg(bank.bankId) + '\',true)"><i class="fa-solid fa-lock-open"></i></button>';
+    return '<tr>' +
+      '<td>' + (index + 1) + '</td>' +
+      '<td>' + escapeHtml(bank.accountNumber) + '</td>' +
+      '<td>' + escapeHtml(bank.bin) + '</td>' +
+      '<td>' + escapeHtml(bank.accountName) + '</td>' +
+      '<td>' + escapeHtml(bank.bankName) + '</td>' +
+      '<td class="text-center"><span class="status-badge ' + (bank.active ? 'status-active' : 'status-secondary') + '">' + (bank.active ? 'Đang dùng' : 'Đã khóa') + '</span></td>' +
+      '<td class="text-center"><div class="btn-group btn-group-sm">' +
+        '<button type="button" class="btn btn-outline-primary" title="Sửa cấu hình Bank" onclick="editBankConfig(\'' + encodeArg(bank.bankId) + '\')"><i class="fa-solid fa-pen"></i></button>' +
+        action +
+        '<button type="button" class="btn btn-outline-danger" title="Xóa cấu hình Bank" onclick="deleteBankConfig(\'' + encodeArg(bank.bankId) + '\')"><i class="fa-solid fa-trash"></i></button>' +
+      '</div></td>' +
+      '</tr>';
+  }).join("");
+}
+
+function editBankConfig(encodedId) {
+  const id = decodeArg(encodedId);
+  google.script.run
+    .withSuccessHandler(result => {
+      const bank = (result?.data || []).find(item => item.bankId === id);
+      if (!bank) { notify.error("Không tìm thấy tài khoản Bank."); return; }
+      setValue("bankEditId", bank.bankId);
+      setValue("bankAccountNumber", bank.accountNumber);
+      setValue("bankBin", bank.bin);
+      renderBankMasterOptions(bank.bin);
+      setValue("bankAccountName", bank.accountName);
+      setValue("bankName", bank.bankName);
+      setValue("bankBranch", bank.branch);
+      setValue("bankBeneficiary", bank.beneficiary);
+      setValue("bankPaymentTemplate", bank.paymentTemplate);
+      setValue("bankQrTemplate", bank.qrTemplate);
+      setValue("bankQrContentTemplate", bank.qrContentTemplate);
+      setValue("bankActive", bank.active ? "TRUE" : "FALSE");
+      setValue("bankSortOrder", bank.sortOrder);
+      $("#bankAccountNumber").focus();
+    })
+    .withFailureHandler(error => notify.error(error?.message || "Không thể tải Bank."))
+    .getBankConfigList();
+}
+
+function saveBankConfig(event) {
+  event.preventDefault();
+  const payload = {
+    bankId: getValue("bankEditId"),
+    accountNumber: getValue("bankAccountNumber"),
+    bin: getValue("bankBin"),
+    accountName: getValue("bankAccountName"),
+    bankName: getValue("bankName"),
+    branch: getValue("bankBranch"),
+    beneficiary: getValue("bankBeneficiary"),
+    paymentTemplate: $("#bankPaymentTemplate").value,
+    qrTemplate: $("#bankQrTemplate").value,
+    qrContentTemplate: getValue("bankQrContentTemplate"),
+    active: getValue("bankActive"),
+    sortOrder: getValue("bankSortOrder")
+  };
+  if (!payload.accountNumber || !payload.bin || !payload.accountName || !payload.bankName) {
+    notify.warning("Vui lòng nhập đủ Số tài khoản, BIN, Tên tài khoản và Ngân hàng.");
+    return;
+  }
+  loading.show("Đang lưu cấu hình Bank...");
+  google.script.run
+    .withSuccessHandler(result => {
+      loading.hide();
+      if (!result?.success) { notify.error(result?.message || "Không thể lưu Bank."); return; }
+      notify.success(result.message || "Đã lưu cấu hình Bank.");
+      resetBankForm();
+      loadBankConfig();
+      loadDataFromDrive();
+    })
+    .withFailureHandler(error => { loading.hide(); notify.error(error?.message || "Lỗi lưu Bank."); })
+    .saveBankConfig(payload);
+}
+
+async function toggleBankConfig(encodedId, active) {
+  const id = decodeArg(encodedId);
+  const confirmed = await confirmAction(active ? "Mở khóa tài khoản?" : "Khóa tài khoản?", active ? "Tài khoản sẽ xuất hiện trong danh sách thanh toán và QR." : "Tài khoản sẽ không còn xuất hiện để thanh toán và tạo QR.");
+  if (!confirmed) return;
+  loading.show(active ? "Đang mở khóa Bank..." : "Đang khóa Bank...");
+  google.script.run
+    .withSuccessHandler(result => {
+      loading.hide();
+      if (!result?.success) { notify.error(result?.message || "Không thể cập nhật Bank."); return; }
+      notify.success(result.message || "Đã cập nhật Bank.");
+      loadBankConfig();
+      loadDataFromDrive();
+    })
+    .withFailureHandler(error => { loading.hide(); notify.error(error?.message || "Lỗi cập nhật Bank."); })
+    .toggleBankConfig(id, active);
+}
+
+async function deleteBankConfig(encodedId) {
+  const id = decodeArg(encodedId);
+  const confirmed = await confirmAction("Xóa tài khoản Bank?", "Tài khoản sẽ bị xóa khỏi Sheet BANK. Nếu chỉ muốn tạm ngừng, nên dùng Khóa.");
+  if (!confirmed) return;
+  loading.show("Đang xóa Bank...");
+  google.script.run
+    .withSuccessHandler(result => {
+      loading.hide();
+      if (!result?.success) { notify.error(result?.message || "Không thể xóa Bank."); return; }
+      notify.success(result.message || "Đã xóa Bank.");
+      resetBankForm();
+      loadBankConfig();
+      loadDataFromDrive();
+    })
+    .withFailureHandler(error => { loading.hide(); notify.error(error?.message || "Lỗi xóa Bank."); })
+    .deleteBankConfig(id);
+}
+
+function openServiceConfig() {
+      bootstrap.Modal
+        .getOrCreateInstance(
+          $("#serviceConfigModal")
+        )
+        .show();
+    }
+    function openVersionModal() {
+      bootstrap.Modal
+        .getOrCreateInstance(
+          $("#versionModal")
+        )
+        .show();
+    }
+function autofillCompanyByMst() {
+      const mst =
+        getValue(
+          "formMst"
+        );
+      if (!mst) {
+        return;
+      }
+      const company =
+        state.rawServices.find(
+          item =>
+            String(
+              item.mst || ""
+            ).trim() === mst
+        );
+      if (!company) {
+        return;
+      }
+      setValue(
+        "formName",
+        company.name
+      );
+      setValue(
+        "formContactName",
+        company.contactName
+      );
+      setValue(
+        "formContactPhone",
+        company.contactPhone
+      );
+      setValue(
+        "formContactEmail",
+        company.contactEmail
+      );
+      $("#formMst")
+        .classList
+        .add("border-success");
+    }
+function escapeHtml(value) {
+      return String(
+        value ?? ""
+      )
+        .replaceAll(
+          "&",
+          "&amp;"
+        )
+        .replaceAll(
+          "<",
+          "&lt;"
+        )
+        .replaceAll(
+          ">",
+          "&gt;"
+        )
+        .replaceAll(
+          '"',
+          "&quot;"
+        )
+        .replaceAll(
+          "'",
+          "&#039;"
+        );
+    }
+$("#serviceForm")
+      ?.addEventListener(
+        "submit",
+        handleFormSubmit
+      );
+    $("#btnResetForm")
+      ?.addEventListener(
+        "click",
+        resetForm
+      );
+    $("#btnAddService")
+      ?.addEventListener(
+        "click",
+        addServiceConfig
+      );
+
+    $("#bankBinPreset")
+      ?.addEventListener("change", applyBankMasterSelection);
+    $("#bankBin")
+      ?.addEventListener("blur", applyBankByBinInput);
+    $("#btnSuggestPaymentTemplate")
+      ?.addEventListener("click", () => {
+        setValue("bankPaymentTemplate", "");
+        suggestPaymentTemplate();
+      });
+    $("#btnSuggestQrTemplate")
+      ?.addEventListener("click", () => {
+        setValue("bankQrTemplate", "");
+        suggestBankQrTemplate();
+      });
+    $("#btnSuggestQrContent")
+      ?.addEventListener("click", () => {
+        setValue("bankQrContentTemplate", "");
+        suggestBankQrContent();
+      });
+
+    $("#bankConfigForm")?.addEventListener("submit", saveBankConfig);
+    $("#btnResetBankForm")?.addEventListener("click", resetBankForm);
+    $("#filterTransMonth")
+      ?.addEventListener(
+        "change",
+        renderTransactionTable
+      );
+    $("#filterTransYear")
+      ?.addEventListener(
+        "change",
+        () => {
+          renderTransactionTable();
+          if (
+            $("#chartModal")
+              ?.classList
+              .contains("show")
+          ) {
+            updateChart();
+          }
+        }
+      );
+    $("#searchQuery")
+      ?.addEventListener(
+        "input",
+        renderMainTable
+      );
+    $("#searchQuery")
+      ?.addEventListener(
+        "keydown",
+        event => {
+          if (event.key === "Escape" && event.target.value) {
+            event.preventDefault();
+            clearSearchQuery();
+          }
+        }
+      );
+    $("#renewQuickModal")
+      ?.addEventListener(
+        "hidden.bs.modal",
+        () => {
+          if (state.renewPrevMode === undefined) return;
+          setValue("editServiceIndex", state.renewPrevMode);
+          setValue("formId", state.renewPrevId);
+          state.renewPrevMode = undefined;
+          state.renewPrevId = undefined;
+        }
+      );
+    $("#btnClearSearch")
+      ?.addEventListener(
+        "click",
+        clearSearchQuery
+      );
+    $("#filterExpiryStatus")
+      ?.addEventListener(
+        "change",
+        renderMainTable
+      );
+    $("#formYears")
+      ?.addEventListener(
+        "input",
+        autoCalculateExpiry
+      );
+    $("#formStartDate")
+      ?.addEventListener(
+        "input",
+        autoCalculateExpiry
+      );
+    $("#formTransAmount")
+      ?.addEventListener(
+        "input",
+        event =>
+          formatCurrencyInput(
+            event.target
+          )
+      );
+
+    $("#bankSelector")?.addEventListener("change", updatePaymentContent);
+    $("#quickRenewAmount")
+      ?.addEventListener(
+        "input",
+        event =>
+          formatCurrencyInput(
+            event.target
+          )
+      );
+    $("#quickRenewYears")
+      ?.addEventListener(
+        "input",
+        autoCalculateExpiry
+      );
+    $("#btnConfirmQuickRenew")
+      ?.addEventListener(
+        "click",
+        confirmQuickRenew
+      );
+    $("#bankSelector")
+      ?.addEventListener(
+        "change",
+        updatePaymentContent
+      );
+    $("#formMst")
+      ?.addEventListener(
+        "blur",
+        autofillCompanyByMst
+      );
+    window.addEventListener(
+      "load",
+      () => {
+        initMonthYearSelectors();
+        loadDataFromDrive();
+      }
+    );
+  </script>
+</body>
+</html>
