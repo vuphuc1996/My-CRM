@@ -397,6 +397,12 @@
       background: #f1f3f5;
       font-weight: 600;
     }
+    .history-group-row td {
+      background: #eaf2ff;
+      border-top: 2px solid #b9d3ff;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
     .login-overlay {
       position: fixed;
       inset: 0;
@@ -608,6 +614,12 @@
               <button type="button" class="dropdown-item" onclick="openBackupSyncModal()">
                 <i class="fa-solid fa-database me-2 text-success"></i>
                 Đồng bộ dữ liệu
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item" onclick="backupSpreadsheetNowUI()">
+                <i class="fa-solid fa-cloud-arrow-down me-2 text-success"></i>
+                Sao lưu ra file (có ngày)
               </button>
             </li>
             <li>
@@ -906,6 +918,7 @@
                 type="text"
                 id="formUser"
                 class="form-control"
+                autocomplete="off"
                 placeholder="Tên đăng nhập...">
             </div>
             <div class="col-12 col-md-6 col-xl-4">
@@ -914,11 +927,23 @@
                 class="form-label">
                 Mật khẩu
               </label>
-              <input
-                type="text"
-                id="formPass"
-                class="form-control"
-                placeholder="Mật khẩu...">
+              <div class="input-group">
+                <input
+                  type="password"
+                  id="formPass"
+                  class="form-control"
+                  autocomplete="new-password"
+                  placeholder="Mật khẩu...">
+                <button
+                  type="button"
+                  id="btnToggleFormPass"
+                  class="btn btn-outline-secondary"
+                  title="Hiện hoặc ẩn mật khẩu"
+                  aria-label="Hiện hoặc ẩn mật khẩu"
+                  onclick="toggleFormPassword()">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
             </div>
             <div class="col-12 col-md-6 col-xl-4">
               <label
@@ -1303,7 +1328,6 @@
               <table class="table table-hover app-table">
                 <thead>
                   <tr>
-                    <th>Dịch vụ</th>
                     <th>Lần</th>
                     <th>Đấu nối</th>
                     <th>Số năm</th>
@@ -1349,8 +1373,9 @@
               <i class="fa-solid fa-bell me-2"></i>Nhắc hạn dịch vụ
             </h5>
             <div class="text-secondary small">
-              Các gói hết hạn trong tháng này và 2 tháng tới
-              (<span id="reminderTotal">0</span> gói)
+              Gói hết hạn trong tháng này và các tháng tới
+              (<span id="reminderTotal">0</span> gói). Hạn tính đến hết tháng ghi trên gói,
+              ví dụ hạn 10/2026 là hết ngày 31/10/2026.
             </div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -2895,18 +2920,30 @@ function renderTransactionTable() {
       tbody.innerHTML = html;
       setText("dash-month-revenue", formatVnd(total));
     }
-function checkTimeStatus(expiryDateInput) {
-  const expiryDate = expiryDateInput instanceof Date ? expiryDateInput : parseDateString(expiryDateInput);
-  if (!expiryDate) return { code: "het-han", text: "Đã hết hạn", cssClass: "status-secondary", priority: 1 };
+/* Một hàm duy nhất tính hạn: dashboard, bộ lọc, Nhắc hạn và tab Lịch sử đều dùng kết quả này.
+   Quy ước: gói có hạn tháng M/yyyy dùng được đến hết ngày cuối cùng của tháng đó. */
+function getExpiryInfo(expiryDateInput) {
+  const expiry = expiryDateInput instanceof Date ? expiryDateInput : parseDateString(expiryDateInput);
+  if (!expiry) return null;
   const now = new Date();
-  const expiryMonth = expiryDate.getFullYear() * 12 + expiryDate.getMonth();
-  const currentMonth = now.getFullYear() * 12 + now.getMonth();
-  const diffMonths = expiryMonth - currentMonth;
-  if (diffMonths < 0) return { code: "het-han", text: "Đã hết hạn", cssClass: "status-secondary", priority: 1 };
-  if (diffMonths === 0) return { code: "han-trong-thang", text: "Hạn trong tháng", cssClass: "status-danger", priority: 2 };
-  if (diffMonths === 1) return { code: "sap-het-1", text: "Còn 1 tháng", cssClass: "status-orange", priority: 3 };
-  if (diffMonths <= 3) return { code: "sap-het-2-3", text: "Còn 2–3 tháng", cssClass: "status-warning", priority: 4 };
-  return { code: "con-han", text: "Còn hạn", cssClass: "status-active", priority: 5 };
+  const monthsLeft = (expiry.getFullYear() * 12 + expiry.getMonth()) - (now.getFullYear() * 12 + now.getMonth());
+  const endOfMonth = new Date(expiry.getFullYear(), expiry.getMonth() + 1, 0, 23, 59, 59);
+  const daysLeft = Math.ceil((endOfMonth - now) / 86400000);
+  return { expiry, monthsLeft, endOfMonth, daysLeft };
+}
+function statusTitle(status) {
+  if (status.monthsLeft === null || status.monthsLeft === undefined) return "Không xác định được hạn";
+  if (status.monthsLeft < 0) return "Đã hết hạn";
+  return "Còn " + status.daysLeft + " ngày (hạn tính đến hết tháng)";
+}
+function checkTimeStatus(expiryDateInput) {
+  const info = getExpiryInfo(expiryDateInput);
+  const extra = info ? { monthsLeft: info.monthsLeft, daysLeft: info.daysLeft } : { monthsLeft: null, daysLeft: null };
+  if (!info || info.monthsLeft < 0) return { ...extra, code: "het-han", text: "Đã hết hạn", cssClass: "status-secondary", priority: 1 };
+  if (info.monthsLeft === 0) return { ...extra, code: "han-trong-thang", text: "Hạn trong tháng", cssClass: "status-danger", priority: 2 };
+  if (info.monthsLeft === 1) return { ...extra, code: "sap-het-1", text: "Còn 1 tháng", cssClass: "status-orange", priority: 3 };
+  if (info.monthsLeft <= 3) return { ...extra, code: "sap-het-2-3", text: "Còn 2–3 tháng", cssClass: "status-warning", priority: 4 };
+  return { ...extra, code: "con-han", text: "Còn hạn", cssClass: "status-active", priority: 5 };
 }
 
 function isCurrentMonth(expiryDateInput) {
@@ -3125,11 +3162,11 @@ function renderCompanyDetail(mst) {
       '<td>' + escapeHtml(formatDateToString(service.startDate)) + '</td>' +
       '<td>' + escapeHtml(service.years) + '</td>' +
       '<td>' + escapeHtml(formatDateToString(service.expiryDate)) + '</td>' +
-      '<td class="text-center"><span class="status-badge ' + status.cssClass + '">' + escapeHtml(status.text) + '</span></td>' +
+      '<td class="text-center"><span class="status-badge ' + status.cssClass + '" title="' + escapeHtml(statusTitle(status)) + '">' + escapeHtml(status.text) + '</span></td>' +
       '<td>' + escapeHtml(service.note) + '</td>' +
       '<td class="text-center">' + linkHtml + '</td>' +
       '<td>' + escapeHtml(service.user) + '</td>' +
-      '<td>' + escapeHtml(service.pass) + '</td>' +
+      '<td>' + passwordCellHtml(service.pass, globalIndex) + '</td>' +
       '<td><div class="btn-group btn-group-sm">' +
         '<button type="button" class="btn btn-outline-warning" title="Sửa thông tin dịch vụ" aria-label="Sửa thông tin dịch vụ" onclick="loadSingleServiceToForm(' + globalIndex + ')"><i class="fa-solid fa-pen"></i></button>' +
         '<button type="button" class="btn btn-outline-info" title="Gia hạn dịch vụ" aria-label="Gia hạn dịch vụ" onclick="openQuickRenewModal(\'' + encodeArg(service.mst) + '\',\'' + encodeArg(service.service) + '\',\'' + encodeArg(service.id) + '\')"><i class="fa-solid fa-clock-rotate-left"></i></button>' +
@@ -3140,7 +3177,8 @@ function renderCompanyDetail(mst) {
   return true;
 }
 
-/* Tab "Lịch sử gia hạn": mỗi dịch vụ gồm các kỳ cũ (history) + kỳ hiện tại, ghép với giao dịch KPI theo ID */
+/* Tab "Lịch sử gia hạn": gom theo từng dịch vụ (ví dụ USB Token), kỳ mới nhất ở trên, kỳ cũ ở dưới.
+   Các kỳ cũ lấy từ history, ghép với giao dịch KPI theo ID để có số tiền và thanh toán. */
 function renderCompanyHistory(services) {
   const tbody = $("#modalHistoryBody");
   if (!tbody) return;
@@ -3149,6 +3187,13 @@ function renderCompanyHistory(services) {
     const id = String(item.id || "").trim();
     if (id) kpiById.set(id, item);
   });
+  const isPaid = value => {
+    const text = String(value ?? "").trim().toLowerCase();
+    return text === "yes" || text === "đã thanh toán";
+  };
+  const nameCount = new Map();
+  services.forEach(service => nameCount.set(service.service, (nameCount.get(service.service) || 0) + 1));
+  const nameSeen = new Map();
   let renewCount = 0;
   const html = services.map(service => {
     const periods = [];
@@ -3157,20 +3202,42 @@ function renderCompanyHistory(services) {
     });
     periods.push({ start: service.startDate, years: service.years, expiry: service.expiryDate, id: service.idKpi || service.id, current: true });
     renewCount += periods.length - 1;
+
+    const seen = (nameSeen.get(service.service) || 0) + 1;
+    nameSeen.set(service.service, seen);
+    const title = nameCount.get(service.service) > 1 ? service.service + " · mục " + seen : service.service;
+    let total = 0;
+    let matched = 0;
+    periods.forEach(period => {
+      const kpi = kpiById.get(String(period.id || "").trim());
+      if (kpi) {
+        total += Number(kpi.transAmount) || 0;
+        matched++;
+      }
+    });
+    const status = checkTimeStatus(service.expiryDate);
+    const header = '<tr class="history-group-row"><td colspan="8">' +
+      '<div class="d-flex flex-wrap justify-content-between align-items-center gap-2">' +
+      '<div><i class="fa-solid fa-layer-group me-2"></i><strong>' + escapeHtml(title) + '</strong>' +
+      '<span class="status-badge ' + status.cssClass + ' ms-2" title="' + escapeHtml(statusTitle(status)) + '">' + escapeHtml(status.text) + '</span></div>' +
+      '<div class="small text-secondary">' + periods.length + ' kỳ · ' + (periods.length - 1) + ' lần gia hạn' +
+      (matched ? ' · Tổng giao dịch: ' + formatVnd(total) : '') + '</div>' +
+      '</div></td></tr>';
+
+    /* Kỳ mới nhất ở trên cùng, kỳ cũ xếp dần xuống dưới */
     const rows = periods.map((period, index) => {
       const kpi = kpiById.get(String(period.id || "").trim());
       const label = index === 0 ? "Đăng ký mới" : "Gia hạn lần " + index;
       const typeHtml = kpi
-        ? '<span class="badge text-bg-' + (kpi.transType === "Mới" ? "success" : "primary") + '">' + escapeHtml(kpi.transType || "N/A") + '</span>'
+        ? '<span class="badge text-bg-' + (kpi.transType === "Mới" || kpi.transType === "Đăng ký" ? "success" : "primary") + '">' + escapeHtml(kpi.transType || "N/A") + '</span>'
         : '<span class="text-secondary">—</span>';
       const amountHtml = kpi ? formatVnd(Number(kpi.transAmount) || 0) : '<span class="text-secondary">—</span>';
       const payHtml = kpi
-        ? '<span class="badge text-bg-' + (kpi.transStatus === "YES" ? "success" : "danger") + '">' + (kpi.transStatus === "YES" ? "Đã thanh toán" : "Chưa thanh toán") + '</span>'
+        ? '<span class="badge text-bg-' + (isPaid(kpi.transStatus) ? "success" : "danger") + '">' + (isPaid(kpi.transStatus) ? "Đã thanh toán" : "Chưa thanh toán") + '</span>'
         : '<span class="text-secondary">—</span>';
       const noteHtml = period.current ? '<span class="badge text-bg-info">Hiện tại</span>' : "";
       return '<tr' + (period.current ? ' class="table-info"' : '') + '>' +
-        '<td>' + escapeHtml(service.service) + '</td>' +
-        '<td>' + escapeHtml(label) + '</td>' +
+        '<td class="ps-4">' + escapeHtml(label) + '</td>' +
         '<td>' + escapeHtml(formatDateToString(period.start)) + '</td>' +
         '<td>' + escapeHtml(period.years) + '</td>' +
         '<td>' + escapeHtml(formatDateToString(period.expiry)) + '</td>' +
@@ -3180,32 +3247,141 @@ function renderCompanyHistory(services) {
         '<td class="text-center">' + noteHtml + '</td>' +
         '</tr>';
     });
-    return rows.reverse().join("");
+    return header + rows.reverse().join("");
   }).join("");
-  tbody.innerHTML = html || '<tr><td colspan="9" class="empty-state">Chưa có lịch sử.</td></tr>';
+  tbody.innerHTML = html || '<tr><td colspan="8" class="empty-state">Chưa có lịch sử.</td></tr>';
   setText("detailHistoryCount", String(renewCount));
 }
 
-/* ===== Nhắc hạn: gói hết hạn trong tháng này, còn 1 tháng, còn 2 tháng ===== */
+/* ===== Mật khẩu dịch vụ: ẩn mặc định, bấm mới hiện (tự ẩn lại sau 15 giây) ===== */
+function passwordCellHtml(value, globalIndex) {
+  if (!String(value ?? "").trim()) return '<span class="text-secondary">—</span>';
+  return '<span class="pw-cell text-nowrap" data-index="' + globalIndex + '">' +
+    '<span class="pw-text" data-visible="0">••••••••</span>' +
+    '<button type="button" class="btn btn-sm btn-outline-secondary py-0 px-1 ms-2" title="Hiện hoặc ẩn mật khẩu" aria-label="Hiện hoặc ẩn mật khẩu" onclick="togglePasswordCell(this)"><i class="fa-solid fa-eye"></i></button>' +
+    '<button type="button" class="btn btn-sm btn-outline-secondary py-0 px-1 ms-1" title="Sao chép mật khẩu" aria-label="Sao chép mật khẩu" onclick="copyPasswordCell(this)"><i class="fa-regular fa-copy"></i></button>' +
+    '</span>';
+}
+function hidePasswordText(text) {
+  clearTimeout(text._timer);
+  text.textContent = "••••••••";
+  text.dataset.visible = "0";
+  const icon = text.parentElement && text.parentElement.querySelector("button i");
+  if (icon) icon.className = "fa-solid fa-eye";
+}
+function togglePasswordCell(button) {
+  const cell = button.closest(".pw-cell");
+  const text = cell.querySelector(".pw-text");
+  if (text.dataset.visible === "1") {
+    hidePasswordText(text);
+    return;
+  }
+  const item = state.rawServices[Number(cell.dataset.index)];
+  text.textContent = String(item && item.pass != null ? item.pass : "");
+  text.dataset.visible = "1";
+  button.querySelector("i").className = "fa-solid fa-eye-slash";
+  clearTimeout(text._timer);
+  text._timer = setTimeout(() => hidePasswordText(text), 15000);
+}
+async function copyPasswordCell(button) {
+  const cell = button.closest(".pw-cell");
+  const item = state.rawServices[Number(cell.dataset.index)];
+  const value = String(item && item.pass != null ? item.pass : "");
+  try {
+    await navigator.clipboard.writeText(value);
+    notify.success("Đã sao chép mật khẩu.");
+  } catch (error) {
+    notify.error("Trình duyệt không cho sao chép tự động. Hãy bấm hiện mật khẩu rồi sao chép thủ công.");
+  }
+}
+function toggleFormPassword() {
+  const input = document.getElementById("formPass");
+  const icon = document.querySelector("#btnToggleFormPass i");
+  const show = input.type === "password";
+  input.type = show ? "text" : "password";
+  if (icon) icon.className = show ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
+}
+
+/* ===== Khởi tạo Sheet và Sao lưu ra file ===== */
+function initializeSystemSheetsUI() {
+  Swal.fire({
+    icon: "question",
+    title: "Khởi tạo Sheet?",
+    text: "Tạo các Sheet cần thiết cho hệ thống mới. Chỉ thực hiện được khi chưa có dữ liệu.",
+    showCancelButton: true,
+    confirmButtonText: "Khởi tạo",
+    cancelButtonText: "Hủy"
+  }).then(result => {
+    if (!result.isConfirmed) return;
+    loading.show("Đang khởi tạo Sheet...");
+    google.script.run
+      .withSuccessHandler(response => {
+        loading.hide();
+        notify.success((response && response.message) || "Đã khởi tạo hệ thống Sheet.");
+        loadDataFromDrive({ force: true });
+      })
+      .withFailureHandler(error => {
+        loading.hide();
+        notify.error((error && error.message) || "Không khởi tạo được Sheet.");
+      })
+      .initializeSystemSheets();
+  });
+}
+function backupSpreadsheetNowUI() {
+  Swal.fire({
+    icon: "question",
+    title: "Sao lưu ra file?",
+    html: "Tạo một bản sao toàn bộ file Google Sheet trong thư mục <b>CRM_Backups</b> trên Google Drive, đặt tên theo ngày giờ. Hệ thống giữ 8 bản gần nhất.",
+    showCancelButton: true,
+    confirmButtonText: "Sao lưu",
+    cancelButtonText: "Hủy"
+  }).then(result => {
+    if (!result.isConfirmed) return;
+    loading.show("Đang sao lưu...");
+    google.script.run
+      .withSuccessHandler(response => {
+        loading.hide();
+        Swal.fire({
+          icon: "success",
+          title: "Đã sao lưu",
+          html: escapeHtml(response.name) + '<br><a href="' + escapeHtml(response.url) + '" target="_blank" rel="noopener noreferrer">Mở bản sao lưu trên Drive</a>'
+        });
+      })
+      .withFailureHandler(error => {
+        loading.hide();
+        notify.error((error && error.message) || "Không sao lưu được.");
+      })
+      .backupSpreadsheetNow();
+  });
+}
+
+/* ===== Nhắc hạn ===== */
+const REMINDER_MAX_MONTHS = 2;                /* nhắc các gói còn tối đa N tháng (0 = hạn trong tháng này, tối đa 3) */
+const REMINDER_EXPIRED_LOOKBACK_MONTHS = 6;   /* tab Đã hết hạn chỉ lấy các gói hết hạn trong N tháng gần đây */
 const REMINDER_LEVELS = [
   { diff: 0, label: "Hạn trong tháng", cssClass: "status-danger" },
   { diff: 1, label: "Còn 1 tháng", cssClass: "status-orange" },
-  { diff: 2, label: "Còn 2 tháng", cssClass: "status-warning" }
-];
+  { diff: 2, label: "Còn 2 tháng", cssClass: "status-warning" },
+  { diff: 3, label: "Còn 3 tháng", cssClass: "status-warning" }
+].filter(level => level.diff <= REMINDER_MAX_MONTHS);
 
-function getReminderItems() {
-  const now = new Date();
-  const currentMonth = now.getFullYear() * 12 + now.getMonth();
+function collectReminderItems(predicate) {
   const items = [];
   (state.rawServices || []).forEach(service => {
-    const expiry = service.expiryDate instanceof Date ? service.expiryDate : parseDateString(service.expiryDate);
-    if (!expiry) return;
-    const diff = expiry.getFullYear() * 12 + expiry.getMonth() - currentMonth;
-    if (diff < 0 || diff > 2) return;
-    items.push({ service, diff, expiry });
+    const info = getExpiryInfo(service.expiryDate);
+    if (info && predicate(info.monthsLeft)) {
+      items.push({ service, info, diff: info.monthsLeft, expiry: info.expiry });
+    }
   });
-  items.sort((a, b) => a.expiry - b.expiry || String(a.service.name).localeCompare(String(b.service.name), "vi"));
   return items;
+}
+function getReminderItems() {
+  return collectReminderItems(months => months >= 0 && months <= REMINDER_MAX_MONTHS)
+    .sort((a, b) => a.expiry - b.expiry || String(a.service.name).localeCompare(String(b.service.name), "vi"));
+}
+function getExpiredReminderItems() {
+  return collectReminderItems(months => months < 0 && months >= -REMINDER_EXPIRED_LOOKBACK_MONTHS)
+    .sort((a, b) => b.expiry - a.expiry || String(a.service.name).localeCompare(String(b.service.name), "vi"));
 }
 
 function updateReminderBadge() {
@@ -3217,29 +3393,65 @@ function updateReminderBadge() {
 }
 
 function setReminderFilter(value) {
-  state.reminderFilter = value === "all" ? "all" : Number(value);
+  state.reminderFilter = value === "all" || value === "expired" ? value : Number(value);
   renderReminderList();
+}
+
+function reminderRowHtml(item, index, badgeText, badgeClass, detailText) {
+  const service = item.service;
+  const contact = [service.contactName, service.contactPhone, service.contactEmail]
+    .filter(value => String(value || "").trim())
+    .map(value => escapeHtml(value))
+    .join('<br>');
+  return '<tr>' +
+    '<td>' + index + '</td>' +
+    '<td><strong>' + escapeHtml(service.name) + '</strong><div class="small text-secondary">MST: ' + escapeHtml(service.mst) + '</div></td>' +
+    '<td class="small">' + contact + '</td>' +
+    '<td>' + escapeHtml(service.service) + '</td>' +
+    '<td>' + escapeHtml(formatDateToString(item.expiry)) + '<div class="small text-secondary">' + escapeHtml(detailText) + '</div></td>' +
+    '<td class="text-center"><span class="status-badge ' + badgeClass + '">' + escapeHtml(badgeText) + '</span></td>' +
+    '<td class="text-center"><div class="btn-group btn-group-sm">' +
+      '<button type="button" class="btn btn-outline-info" title="Gia hạn dịch vụ" aria-label="Gia hạn dịch vụ" onclick="openQuickRenewModal(\'' + encodeArg(service.mst) + '\',\'' + encodeArg(service.service) + '\',\'' + encodeArg(service.id) + '\')"><i class="fa-solid fa-clock-rotate-left"></i></button>' +
+      '<button type="button" class="btn btn-outline-primary" title="Xem chi tiết doanh nghiệp" aria-label="Xem chi tiết doanh nghiệp" onclick="openDetailFromReminder(\'' + encodeArg(service.mst) + '\')"><i class="fa-solid fa-eye"></i></button>' +
+    '</div></td>' +
+    '</tr>';
 }
 
 function renderReminderList() {
   const tbody = $("#reminderTableBody");
   if (!tbody) return;
-  const items = getReminderItems();
+  const upcoming = getReminderItems();
+  const expired = getExpiredReminderItems();
   const filter = state.reminderFilter === undefined ? "all" : state.reminderFilter;
-  const counts = [0, 0, 0];
-  items.forEach(item => counts[item.diff]++);
-  setText("reminderTotal", String(items.length));
+  const counts = {};
+  REMINDER_LEVELS.forEach(level => { counts[level.diff] = 0; });
+  upcoming.forEach(item => { counts[item.diff]++; });
+  setText("reminderTotal", String(upcoming.length));
 
   const chip = (value, text, count, cssClass) =>
     '<button type="button" class="status-badge ' + cssClass + ' reminder-chip' +
     (String(filter) === String(value) ? " active" : "") +
     '" onclick="setReminderFilter(\'' + value + '\')">' + text + ': ' + count + '</button>';
   $("#reminderSummary").innerHTML =
-    chip("all", "Tất cả", items.length, "status-secondary") +
-    REMINDER_LEVELS.map(level => chip(level.diff, level.label, counts[level.diff], level.cssClass)).join("");
+    chip("all", "Sắp hết hạn", upcoming.length, "status-secondary") +
+    REMINDER_LEVELS.map(level => chip(level.diff, level.label, counts[level.diff], level.cssClass)).join("") +
+    chip("expired", "Đã hết hạn (" + REMINDER_EXPIRED_LOOKBACK_MONTHS + " tháng gần đây)", expired.length, "status-secondary");
 
-  if (!items.length) {
-    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Không có gói nào hết hạn trong 2 tháng tới.</td></tr>';
+  if (filter === "expired") {
+    if (!expired.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Không có gói nào hết hạn trong ' + REMINDER_EXPIRED_LOOKBACK_MONTHS + ' tháng gần đây.</td></tr>';
+      return;
+    }
+    let html = '<tr class="reminder-group-row"><td colspan="7">Đã hết hạn trong ' + REMINDER_EXPIRED_LOOKBACK_MONTHS + ' tháng gần đây - ' + expired.length + ' gói (mới hết hạn xếp trước)</td></tr>';
+    expired.forEach((item, i) => {
+      html += reminderRowHtml(item, i + 1, "Đã hết hạn", "status-secondary", "đã quá hạn " + (-item.diff) + " tháng");
+    });
+    tbody.innerHTML = html;
+    return;
+  }
+
+  if (!upcoming.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Không có gói nào hết hạn trong ' + REMINDER_MAX_MONTHS + ' tháng tới.</td></tr>';
     return;
   }
   const now = new Date();
@@ -3247,30 +3459,14 @@ function renderReminderList() {
   let html = "";
   REMINDER_LEVELS.forEach(level => {
     if (filter !== "all" && Number(filter) !== level.diff) return;
-    const group = items.filter(item => item.diff === level.diff);
+    const group = upcoming.filter(item => item.diff === level.diff);
     if (!group.length) return;
     const target = new Date(now.getFullYear(), now.getMonth() + level.diff, 1);
     html += '<tr class="reminder-group-row"><td colspan="7">' + level.label +
       ' (hạn ' + (target.getMonth() + 1) + '/' + target.getFullYear() + ') - ' + group.length + ' gói</td></tr>';
     group.forEach(item => {
-      const service = item.service;
       index++;
-      const contact = [service.contactName, service.contactPhone, service.contactEmail]
-        .filter(value => String(value || "").trim())
-        .map(value => escapeHtml(value))
-        .join('<br>');
-      html += '<tr>' +
-        '<td>' + index + '</td>' +
-        '<td><strong>' + escapeHtml(service.name) + '</strong><div class="small text-secondary">MST: ' + escapeHtml(service.mst) + '</div></td>' +
-        '<td class="small">' + contact + '</td>' +
-        '<td>' + escapeHtml(service.service) + '</td>' +
-        '<td>' + escapeHtml(formatDateToString(item.expiry)) + '</td>' +
-        '<td class="text-center"><span class="status-badge ' + level.cssClass + '">' + level.label + '</span></td>' +
-        '<td class="text-center"><div class="btn-group btn-group-sm">' +
-          '<button type="button" class="btn btn-outline-info" title="Gia hạn dịch vụ" aria-label="Gia hạn dịch vụ" onclick="openQuickRenewModal(\'' + encodeArg(service.mst) + '\',\'' + encodeArg(service.service) + '\',\'' + encodeArg(service.id) + '\')"><i class="fa-solid fa-clock-rotate-left"></i></button>' +
-          '<button type="button" class="btn btn-outline-primary" title="Xem chi tiết doanh nghiệp" aria-label="Xem chi tiết doanh nghiệp" onclick="openDetailFromReminder(\'' + encodeArg(service.mst) + '\')"><i class="fa-solid fa-eye"></i></button>' +
-        '</div></td>' +
-        '</tr>';
+      html += reminderRowHtml(item, index, level.label, level.cssClass, "còn " + item.info.daysLeft + " ngày (đến hết tháng)");
     });
   });
   tbody.innerHTML = html;
