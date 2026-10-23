@@ -6,8 +6,14 @@
     name="viewport"
     content="width=device-width, initial-scale=1">
   <meta
+    name="mobile-web-app-capable"
+    content="yes">
+  <meta
     name="apple-mobile-web-app-capable"
     content="yes">
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%8F%A2%3C/text%3E%3C/svg%3E">
   <meta
     name="apple-mobile-web-app-status-bar-style"
     content="black-translucent">
@@ -387,6 +393,37 @@
       background: #f1f3f5;
       font-weight: 600;
     }
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: #eef1f5;
+    }
+    .login-overlay[hidden] {
+      display: none;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+      padding: 28px 24px;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    }
+    .login-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: #e7f1ff;
+      color: #0d6efd;
+      font-size: 24px;
+      line-height: 56px;
+    }
     .modal .table-wrap {
       max-height: 65vh;
     }
@@ -529,6 +566,16 @@
             Nhắc hạn
           </span>
           <span id="reminderBadge" class="reminder-badge" hidden>0</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          title="Đăng xuất"
+          onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span class="d-none d-md-inline ms-1">
+            Đăng xuất
+          </span>
         </button>
         <div class="dropdown">
           <button
@@ -1272,6 +1319,22 @@
       </div>
     </div>
   </div>
+  <!-- ==================== LOGIN OVERLAY ==================== -->
+  <div id="loginOverlay" class="login-overlay" hidden>
+    <form class="login-card" onsubmit="submitLogin(event)" autocomplete="on">
+      <div class="text-center mb-3">
+        <div class="login-icon"><i class="fa-solid fa-building-shield"></i></div>
+        <h4 class="mt-2 mb-1">Quản Lý Doanh Nghiệp</h4>
+        <div class="text-secondary small">Vui lòng đăng nhập để tiếp tục</div>
+      </div>
+      <label class="form-label" for="loginUser">Tên đăng nhập</label>
+      <input type="text" id="loginUser" class="form-control" autocomplete="username" autocapitalize="none" spellcheck="false">
+      <label class="form-label mt-3" for="loginPass">Mật khẩu</label>
+      <input type="password" id="loginPass" class="form-control" autocomplete="current-password">
+      <div id="loginError" class="alert alert-danger py-2 mt-3 mb-0 small" role="alert" hidden></div>
+      <button type="submit" id="loginSubmit" class="btn btn-primary w-100 mt-3">Đăng nhập</button>
+    </form>
+  </div>
   <!-- ==================== REMINDER MODAL ==================== -->
   <div class="modal fade" id="reminderModal" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -1823,6 +1886,158 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+/* ===== Đăng nhập + gọi Script dữ liệu (Google Apps Script) bằng fetch, thay cho google.script.run =====
+   Giao diện chạy trên GitHub Pages. Tài khoản được kiểm tra ở phía Script dữ liệu (Code.gs);
+   không có token hợp lệ thì Script dữ liệu không trả về dữ liệu nào. */
+const DATA_SCRIPT_URL = "DÁN_URL_WEB_APP_KẾT_THÚC_BẰNG_/exec_VÀO_ĐÂY";
+const SESSION_STORAGE_KEY = "crm_session_v1";
+
+function isScriptUrlConfigured() {
+  return /^https:\/\/script\.google\.com\/.+\/exec$/.test(DATA_SCRIPT_URL);
+}
+function readSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_STORAGE_KEY);
+    if (!raw) return null;
+    const session = JSON.parse(raw);
+    if (!session || !session.token || Number(session.expiresAt) <= Date.now()) {
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      return null;
+    }
+    return session;
+  } catch (error) {
+    return null;
+  }
+}
+function writeSession(session) {
+  try {
+    localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({ token: session.token, expiresAt: session.expiresAt }));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+function clearSession() {
+  try { localStorage.removeItem(SESSION_STORAGE_KEY); } catch (error) {}
+}
+async function postToDataScript(body) {
+  if (!isScriptUrlConfigured()) {
+    throw new Error("Chưa cấu hình URL Script dữ liệu. Hãy sửa hằng số DATA_SCRIPT_URL trong index.html.");
+  }
+  let response;
+  try {
+    /* text/plain để trình duyệt không gửi preflight (Apps Script không xử lý OPTIONS) */
+    response = await fetch(DATA_SCRIPT_URL, {
+      method: "POST",
+      redirect: "follow",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(body)
+    });
+  } catch (error) {
+    throw new Error("Không kết nối được Script dữ liệu. Hãy kiểm tra URL /exec và chắc chắn Script được triển khai với quyền truy cập “Bất kỳ ai”.");
+  }
+  if (!response.ok) throw new Error("Script dữ liệu phản hồi HTTP " + response.status + ".");
+  try {
+    return await response.json();
+  } catch (error) {
+    throw new Error("Script dữ liệu trả về phản hồi không hợp lệ. Hãy kiểm tra URL /exec và quyền truy cập “Bất kỳ ai”.");
+  }
+}
+async function callDataScript(action, args) {
+  const session = readSession();
+  if (!session) {
+    showLoginOverlay("Vui lòng đăng nhập.");
+    throw new Error("Vui lòng đăng nhập.");
+  }
+  const payload = await postToDataScript({
+    action: String(action),
+    args: Array.isArray(args) ? args : [],
+    token: session.token
+  });
+  if (payload && payload.code === "AUTH_REQUIRED") {
+    clearSession();
+    showLoginOverlay(payload.message);
+    throw new Error(payload.message);
+  }
+  if (!payload || !payload.success) throw new Error((payload && payload.message) || "Script dữ liệu xử lý thất bại.");
+  return payload.result;
+}
+/* Giữ nguyên cách gọi cũ: google.script.run.withSuccessHandler(...).withFailureHandler(...).tenHam(...) */
+(function installScriptRunShim() {
+  function createRunner() {
+    let onSuccess = null;
+    let onFailure = null;
+    const runner = new Proxy({}, {
+      get(_, name) {
+        if (name === "withSuccessHandler") return fn => { onSuccess = fn; return runner; };
+        if (name === "withFailureHandler") return fn => { onFailure = fn; return runner; };
+        if (name === "withUserObject") return () => runner;
+        if (typeof name !== "string") return undefined;
+        return (...args) => {
+          callDataScript(name, args).then(
+            result => { if (onSuccess) onSuccess(result); },
+            error => { if (onFailure) onFailure(error); else console.error(error); }
+          );
+        };
+      }
+    });
+    return runner;
+  }
+  window.google = window.google || {};
+  window.google.script = window.google.script || {};
+  Object.defineProperty(window.google.script, "run", { configurable: true, get: createRunner });
+})();
+
+function setLoginError(message) {
+  const box = document.getElementById("loginError");
+  if (!box) return;
+  box.textContent = message || "";
+  box.hidden = !message;
+}
+function showLoginOverlay(message) {
+  const overlay = document.getElementById("loginOverlay");
+  if (!overlay) return;
+  overlay.hidden = false;
+  setLoginError(message && message !== "Vui lòng đăng nhập." ? message : "");
+  const user = document.getElementById("loginUser");
+  if (user && !user.value) user.focus();
+  else document.getElementById("loginPass")?.focus();
+}
+function hideLoginOverlay() {
+  const overlay = document.getElementById("loginOverlay");
+  if (overlay) overlay.hidden = true;
+}
+async function submitLogin(event) {
+  event.preventDefault();
+  const button = document.getElementById("loginSubmit");
+  const username = document.getElementById("loginUser").value.trim();
+  const password = document.getElementById("loginPass").value;
+  if (!username || !password) {
+    setLoginError("Hãy nhập tên đăng nhập và mật khẩu.");
+    return;
+  }
+  setLoginError("");
+  button.disabled = true;
+  button.textContent = "Đang đăng nhập...";
+  try {
+    const payload = await postToDataScript({ action: "login", username: username, password: password });
+    if (!payload || !payload.success) throw new Error((payload && payload.message) || "Đăng nhập thất bại.");
+    if (!writeSession(payload.result)) throw new Error("Trình duyệt đang chặn lưu dữ liệu (chế độ riêng tư?).");
+    document.getElementById("loginPass").value = "";
+    hideLoginOverlay();
+    loadDataFromDrive({ force: true });
+  } catch (error) {
+    setLoginError(error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Đăng nhập";
+  }
+}
+function logout() {
+  clearSession();
+  location.reload();
+}
+
 const state = {
       rawServices: [],
       kpiServices: [],
@@ -4732,7 +4947,11 @@ $("#serviceForm")
       "load",
       () => {
         initMonthYearSelectors();
-        loadDataFromDrive();
+        if (readSession()) {
+          loadDataFromDrive();
+        } else {
+          showLoginOverlay();
+        }
       }
     );
   </script>
